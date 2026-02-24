@@ -1,0 +1,10 @@
+name: QuestSys
+version: '0.33b'
+main: com.sch.QuestSys
+api-version: '1.21'
+authors: [ sch ]
+description: plugin for Welten 4 - quest_sys
+commands:
+  QuestSys:
+    usage: /QuestSys
+    permission: welten.QuestSys
