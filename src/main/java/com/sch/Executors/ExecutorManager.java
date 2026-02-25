@@ -26,10 +26,16 @@ public class ExecutorManager {
 		return executors.get(player.getUniqueId());
 	}
 
-	public Executor Put(UUID uuid, Player player) {
+	public Executor Put(Player player) {
 		Executor e = new Executor(player);
-		executors.put(uuid, e);
+		executors.put(player.getUniqueId(), e);
 		return e;
+	}
+
+	public Executor Put(String nick){
+		Executor e = new Executor(nick);
+		executors.put(e.GetUUID(), e);
+		return e;	
 	}
 
 	public void Remove(UUID uuid){

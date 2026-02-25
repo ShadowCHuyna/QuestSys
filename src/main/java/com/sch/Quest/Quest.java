@@ -139,4 +139,27 @@ public class Quest {
 			if(e == executor) return true;
 		return false;
 	}
+
+	@Override
+	public String toString(){
+		String str = "Quest{" +
+				"\tuuid: " + uuid + "\n" +	
+				"\tname: " + name + "\n" +
+				"\tid: " + id + "\n" + 
+				"\tdescription: " + description + "\n" +
+				"\texp: " + exp + "\n" +
+				"\tliveTime: " + liveTime + "\n" +
+				"\tisFail: " + isFail + "\n" +
+				"\tisEnd: " + isEnd + "\n" +
+				"\tstartTime: " + startTime + "\n" +
+				"\tconditions: [\n";
+		for (Condition condition : conditions)
+			str += "\t\t" + condition.toString() + "\n";
+		str += "\t]\n";
+		str += "\texecutors: [\n";
+		for (Executor executor : executors)
+			str += "\t\t" + executor.toString() + "\n";
+		str += "\t]";
+		return str;
+	}
 }

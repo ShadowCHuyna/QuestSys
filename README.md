@@ -4,6 +4,22 @@ TODO:
 - [ ] db
 - [ ] SCOREBOARD
 
+сохранять данные так:
+```yml
+uuid:
+  id: example_id
+  executors:
+	  nick: uuid
+	  nick: uuid
+	  nick: uuid
+	  nick: uuid
+  conditions:
+	  -walk:
+		  # block: DIRT
+		  target_count: 10
+		  count: 5
+```
+
 cmds:
 - [X] /QuestSys add clan.daily.easy {SCOREBOARD} {PLAYER_0} {PLAYER_1} {PLAYER_n}
 - [ ] /QuestSys {QWEST_UUID} remove {PLAYER} {PLAYER_n}

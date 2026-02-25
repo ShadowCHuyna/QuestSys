@@ -6,7 +6,6 @@ import org.bukkit.event.Event;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 import com.sch.Events.EventTypes;
-import com.sch.Executors.Executor;
 
 import org.bukkit.Material;
 
@@ -29,5 +28,10 @@ public class Walk extends Condition {
 		if(block != null && m.asBlockType() != block.asBlockType()) return;
 		count+=dist;
 		checkCondition();
+	}
+
+	@Override
+	public String toString(){
+		return "Walk distance: "+this.count+ " target: " + this.GetTargetCount();
 	}
 }

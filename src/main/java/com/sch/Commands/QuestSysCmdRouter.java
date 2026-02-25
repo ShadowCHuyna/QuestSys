@@ -54,7 +54,7 @@ public class QuestSysCmdRouter implements CommandExecutor {
 			Executor executor = executorManager.Get(player);
 			ArrayList<Quest> quests = questManager.Get(executor);
 			for (Quest quest : quests) {
-				sender.sendMessage("uuid: "+quest.GetUUID());
+				sender.sendMessage(quest.toString());
 			}
 			return true;
 		} catch (Exception e) {

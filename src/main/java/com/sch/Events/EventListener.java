@@ -75,26 +75,10 @@ public class EventListener implements Listener {
 		}
 	}
 
-	// private HashMap<Executor, HashMap<EventTypes, ArrayList<Consumer<Event>>>> subscriptionTable = new HashMap<>();
 	private final Map<Executor, Map<EventTypes, CopyOnWriteArrayList<Consumer<Event>>>> subscriptionTable = new HashMap<>();
 
 	private ExecutorManager executorManager = ExecutorManager.PickMe();
 
-	/*
-	private void CallEvent(EventTypes eventType, Event event, Executor executor) {
-		HashMap<EventTypes, ArrayList<Consumer<Event>>> executorMap = subscriptionTable.get(executor);
-		if (executorMap == null)
-			return;
-
-		ArrayList<Consumer<Event>> handlers = executorMap.get(eventType);
-		if (handlers == null)
-			return;
-
-		for (Consumer<Event> handler : handlers) {
-			handler.accept(event);
-		}
-	}	
-	*/
 	private void CallEvent(EventTypes eventType, Event event, Executor executor) {
 		Map<EventTypes, CopyOnWriteArrayList<Consumer<Event>>> executorMap =
 				subscriptionTable.get(executor);
@@ -115,25 +99,6 @@ public class EventListener implements Listener {
 		return new Subscribe(eventType, executors, handler);
 	}
 
-	/* 
-	
-	public void AddHandler(EventTypes eventType, Executor executor, Consumer<Event> handler) {
-		HashMap<EventTypes, ArrayList<Consumer<Event>>> byEvent = subscriptionTable.get(executor);
-		if (byEvent == null) {
-			byEvent = new HashMap<>();
-			subscriptionTable.put(executor, byEvent);
-		}
-
-		ArrayList<Consumer<Event>> handlers = byEvent.get(eventType);
-		if (handlers == null) {
-			handlers = new ArrayList<>();
-			byEvent.put(eventType, handlers);
-		}
-
-		handlers.add(handler);
-	}
-	*/
-
 	public void AddHandler(EventTypes eventType, Executor executor, Consumer<Event> handler) {
 		Map<EventTypes, CopyOnWriteArrayList<Consumer<Event>>> byEvent =
 				subscriptionTable.computeIfAbsent(executor, k -> new HashMap<>());
@@ -144,27 +109,7 @@ public class EventListener implements Listener {
 		handlers.add(handler);
 	}
 
-	/*
-	
-	public void RemoveHandler(EventTypes eventType, Executor executor, Consumer<Event> handler) {
-		HashMap<EventTypes, ArrayList<Consumer<Event>>> byEvent = subscriptionTable.get(executor);
-		if (byEvent == null)
-			return; 
 
-		ArrayList<Consumer<Event>> handlers = byEvent.get(eventType);
-		if (handlers == null)
-			return; 
-
-		handlers.remove(handler);
-
-		if (handlers.isEmpty()) {
-			byEvent.remove(eventType);
-		}
-		if (byEvent.isEmpty()) {
-			subscriptionTable.remove(executor);
-		}
-	}
-	*/
 	public void RemoveHandler(EventTypes eventType, Executor executor, Consumer<Event> handler) {
 
 		Map<EventTypes, CopyOnWriteArrayList<Consumer<Event>>> byEvent =
@@ -188,9 +133,7 @@ public class EventListener implements Listener {
 
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event) {
-		final Player player = event.getPlayer();
-		final UUID uuid = player.getUniqueId();
-		Executor e = executorManager.Put(uuid, player);
+		Executor e = executorManager.Put(event.getPlayer());
 		CallEvent(EventTypes.PlayerJoinEvent, event, e);
 	}
 
@@ -201,13 +144,6 @@ public class EventListener implements Listener {
 		CallEvent(EventTypes.PlayerQuitEvent, event, e);
 		executorManager.Remove(uuid);
     }
-
-	// @EventHandler
-    // public void onPlayerRespawn(PlayerRespawnEvent event){
-	// 	CallEvent(EventTypes.Respawn, event, executorManager.Get(event.getPlayer().getUniqueId()));
-    // }
-
-	// @EventHandler
 
 	public void onAnyEvent(Event event){
 		UUID playerId = null;

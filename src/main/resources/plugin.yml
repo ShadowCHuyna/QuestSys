@@ -7,4 +7,4 @@ description: plugin for Welten 4 - quest_sys
 commands:
   QuestSys:
     usage: /QuestSys
-    permission: welten.QuestSys
+    permission: QuestSys
