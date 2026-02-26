@@ -1,20 +1,22 @@
 server core: [purpur](https://purpurmc.org/download/purpur)
 
 TODO:
-- [ ] db
+- [X] db
 - [ ] SCOREBOARD
 
 сохранять данные так:
 ```yml
 uuid:
   id: example_id
+  start_time: 1984
+  is_end: false
   executors:
-	  nick: uuid
-	  nick: uuid
-	  nick: uuid
-	  nick: uuid
+    - nick
+    - nick
+    - nick
+    - nick
   conditions:
-	  -walk:
+	  - walk:
 		  # block: DIRT
 		  target_count: 10
 		  count: 5

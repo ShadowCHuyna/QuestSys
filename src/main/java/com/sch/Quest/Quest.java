@@ -19,14 +19,14 @@ public class Quest {
 	private String description;
 	private double exp;
 	private String scoreboard;
-	private long liveTime;
+	private long liveTime = -1;
 
 	private String[] onCompliteCmds;
 	private String[] onFailCmds;
 
 	private boolean isEnd = false;
 	private boolean isFail = false;
-	private long startTime;
+	private long startTime = -1;
 
 	private QuestManager questManager = QuestManager.PickMe();
 
@@ -42,7 +42,7 @@ public class Quest {
 				String[] onCompliteCmds,
 				String[] onFailCmds
 			){
-		this.uuid = questManager.Put(this);
+		// this.uuid = questManager.Put(this);
 		
 		this.name = name;
 		this.id = id;
@@ -57,18 +57,31 @@ public class Quest {
 		AddExecutors(new ArrayList<Executor>());
 		AddCondition(conditions);
 
-		startTime = java.time.Instant.now().getEpochSecond();
+		// startTime = java.time.Instant.now().getEpochSecond();
 	}
 
+	public void SetIsEnd(boolean state){isEnd=state;}
+
 	public UUID GetUUID(){return uuid;}
+	public void SetUUID(UUID uuid){this.uuid=uuid;}
+	public void SetNewUUID(){this.uuid=UUID.randomUUID();}
+
 	public String GetName(){return name;}
 	public String GetId(){return id;}
 	public String GetDescription(){return description;}
 	public double GetExp(){return exp;}
 	public String GetScoreboard(){return scoreboard;}
+	
 	public long GetLiveTime(){return liveTime;}
+	public long GetStartTime(){return startTime;}
+	public void SetStartTime(long startTime){this.startTime=startTime;}
+	public void SetStartTimeNOW(){this.startTime=java.time.Instant.now().getEpochSecond();}
+
 	public boolean IsFail(){return isFail;}
 	public boolean IsEnd(){return isEnd;}
+
+	public Executor[] GetExecutors(){return executors.toArray(new Executor[0]);}
+	public Condition[] GetConditions(){return conditions.toArray(new Condition[0]);}
 
 	public void SetScoreboard(String scoreboard){this.scoreboard = scoreboard;}
 
@@ -104,30 +117,33 @@ public class Quest {
 		if(flag) onComplite();
 	}
 
+	// @TODO ждать пока игрок зайдет
 	public void onFail(){
 		isFail = true;
 		isEnd = true;
 		for (Executor executor : executors){
 			Player player = executor.GetPlayer(); 
+			if(player == null) continue;
 			for (String cmd : onFailCmds) 
 				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd.replace("{player}", player.getName()));
 		}
 	}
 
 	// @TODO scoreboard
+	// @TODO ждать пока игрок зайдет
 	public void onComplite(){
 		isEnd = true;
 		for (Executor executor : executors){
 			Player player = executor.GetPlayer(); 
+			if(player == null) continue;
 			for (String cmd : onCompliteCmds) 
 				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd.replace("{player}", player.getName()));
 		}
 	}
 
-	// @TODO отписываться во всех Condition
 	public boolean CheckLiveTime(){
 		long time = java.time.Instant.now().getEpochSecond();
-		if(time - startTime >= liveTime){
+		if(startTime >= 0 && liveTime >= 0 && time - startTime >= liveTime){
 			onFail();
 			return false;
 		}

@@ -4,6 +4,14 @@ all:
 	cp ./target/QuestSys-0.33b.jar ./server/plugins/QuestSys-0.33b.jar
 	cd ./server && java -jar ./purpur.jar --nogui 
 
+run:
+	mkdir -p ./server/plugins
+	cp ./target/QuestSys-0.33b.jar ./server/plugins/QuestSys-0.33b.jar
+	cd ./server && java -jar ./purpur.jar --nogui 
+
+build:
+	mvn clean package
+	
 install:
 	mkdir -p ./server 
 	wget -O ./server/purpur.jar https://api.purpurmc.org/v2/purpur/1.21.11/2563/download

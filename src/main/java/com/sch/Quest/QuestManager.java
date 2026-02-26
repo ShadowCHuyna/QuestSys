@@ -49,6 +49,8 @@ public class QuestManager {
 		quests.remove(uuid);
 	}
 
+	public Quest[] GetAllQuests(){return quests.values().toArray(new Quest[0]);}
+
 	private QuestManager() {
 		new BukkitRunnable() {
 			@Override

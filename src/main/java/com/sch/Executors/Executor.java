@@ -9,20 +9,13 @@ import org.bukkit.entity.Player;
 public class Executor {
 	private Player player;
 	private String nick;
-	private UUID uuid;
-
-	public UUID GetUUID(){return uuid;}
-
-	public Executor(Player player) {
-		this.player = player;
-	}
-
+	
 	public Executor(String nick) {
 		this.nick = nick;
-		uuid = Bukkit.getOfflinePlayer(nick).getUniqueId();
 	}
 
-	public final Player GetPlayer(){
-		return player;
-	}
+	public void SetPlayer(Player player){this.player=player;}
+	public final Player GetPlayer(){return player;}
+
+	public final String GetNick(){return nick;}
 }

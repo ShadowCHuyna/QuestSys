@@ -70,6 +70,19 @@ public class QuestFactory {
 		}
 	}
 
+	
+	public Quest CreateQuestByID(String id){
+		List<ConfigurationSection> allQuests = new ArrayList<>();
+		collectQuestsRecursively(root, allQuests);
+		if (allQuests.isEmpty()) return null;
+
+		for (ConfigurationSection questSection : allQuests)
+			if(questSection.getName().equalsIgnoreCase(id))
+				return buildQuest(questSection);
+
+		return null;
+	}
+	
 	private Quest buildQuest(ConfigurationSection section) {
 		String name = section.getString("name");
 		String description = section.getString("description");

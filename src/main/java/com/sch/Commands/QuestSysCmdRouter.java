@@ -8,6 +8,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
+import com.sch.DataBase.DBController;
 import com.sch.Executors.Executor;
 import com.sch.Executors.ExecutorManager;
 import com.sch.Quest.Quest;
@@ -18,6 +19,7 @@ public class QuestSysCmdRouter implements CommandExecutor {
 	private final QuestFactory questFactory = QuestFactory.PickMe();
 	private final ExecutorManager executorManager = ExecutorManager.PickMe();
 	private final QuestManager questManager = QuestManager.PickMe();
+	private final DBController dbController = DBController.PickMe();
 
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String @NotNull [] args) {
@@ -74,6 +76,11 @@ public class QuestSysCmdRouter implements CommandExecutor {
 				executors.add(executorManager.Get(player));
 	
 			quest.AddExecutors(executors);
+			quest.SetStartTimeNOW();
+			quest.SetNewUUID();
+			questManager.Put(quest);
+
+			dbController.SaveQuests();
 
 			sender.sendMessage(quest.GetUUID().toString());
 		} catch (Exception e) {

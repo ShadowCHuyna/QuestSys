@@ -133,32 +133,29 @@ public class EventListener implements Listener {
 
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event) {
-		Executor e = executorManager.Put(event.getPlayer());
-		CallEvent(EventTypes.PlayerJoinEvent, event, e);
+		Executor e = executorManager.Get(event.getPlayer().getName());
+		e.SetPlayer(event.getPlayer());
 	}
 
 	@EventHandler
     public void onPlayerQuit(PlayerQuitEvent event){
-		final UUID uuid = event.getPlayer().getUniqueId();
-		Executor e = executorManager.Get(uuid);
-		CallEvent(EventTypes.PlayerQuitEvent, event, e);
-		executorManager.Remove(uuid);
+		Executor e = executorManager.Get(event.getPlayer().getName());
+		e.SetPlayer(null);
     }
 
 	public void onAnyEvent(Event event){
-		UUID playerId = null;
+		Player player = null;
 
 		if (event instanceof PlayerEvent pe) {
-			playerId = pe.getPlayer().getUniqueId();
+			player = pe.getPlayer();
 		} else if (event instanceof EntityDamageByEntityEvent ede && ede.getDamager() instanceof Player p) {
-			playerId = p.getUniqueId();
+			player = p;
 		}
 
-		if (playerId != null) {
+		if (player != null) {
 			EventTypes type = EventTypes.valueOf(event.getEventName());
-			if (type != null) {
-				CallEvent(type, event, executorManager.Get(playerId));
-			}
+			if (type != null)
+				CallEvent(type, event, executorManager.Get(player.getName()));
 		}
 	}
 }

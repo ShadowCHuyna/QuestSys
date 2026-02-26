@@ -15,31 +15,22 @@ public class ExecutorManager {
 		return ExecutorManager.instance;
 	}
 
-	private HashMap<UUID, Executor> executors = new HashMap<UUID, Executor>();
-
-	public Executor Get(UUID uuid) {
-		return executors.get(uuid);
-	}
+	private HashMap<String, Executor> executors = new HashMap<String, Executor>();
 
 	public Executor Get(String nick) {
-		Player player = Bukkit.getPlayer(nick);
-		return executors.get(player.getUniqueId());
+		Executor executor = executors.get(nick);
+		if (executor == null) executor = Put(nick);
+		return executor;
 	}
 
-	public Executor Put(Player player) {
-		Executor e = new Executor(player);
-		executors.put(player.getUniqueId(), e);
+	public Executor Put(String nick) {
+		Executor e = new Executor(nick);
+		executors.put(nick, e);
 		return e;
 	}
 
-	public Executor Put(String nick){
-		Executor e = new Executor(nick);
-		executors.put(e.GetUUID(), e);
-		return e;	
-	}
-
-	public void Remove(UUID uuid){
-		executors.remove(uuid);
+	public void Remove(String nick){
+		executors.remove(nick);
 	}
 
 	private ExecutorManager() {}

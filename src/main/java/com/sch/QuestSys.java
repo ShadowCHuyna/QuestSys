@@ -3,6 +3,7 @@ package com.sch;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.sch.Commands.QuestSysCmdRouter;
+import com.sch.DataBase.DBController;
 import com.sch.Events.EventListener;
 
 public class QuestSys extends JavaPlugin {
@@ -11,14 +12,14 @@ public class QuestSys extends JavaPlugin {
 
 	void DrawLogo(){
 		System.out.println("\n"+
-                        "   ▄███████▄  ▄██████▄      ███        ▄████████     ███      ▄██████▄    ▄▄▄▄███▄▄▄▄   \n" + //
-                        "  ███    ███ ███    ███ ▀█████████▄   ███    ███ ▀█████████▄ ███    ███ ▄██▀▀▀███▀▀▀██▄ \n" + //
-                        "  ███    ███ ███    ███    ▀███▀▀██   ███    ███    ▀███▀▀██ ███    ███ ███   ███   ███ \n" + //
-                        "  ███    ███ ███    ███     ███   ▀   ███    ███     ███   ▀ ███    ███ ███   ███   ███ \n" + //
-                        "▀█████████▀  ███    ███     ███     ▀███████████     ███     ███    ███ ███   ███   ███ \n" + //
-                        "  ███        ███    ███     ███       ███    ███     ███     ███    ███ ███   ███   ███ \n" + //
-                        "  ███        ███    ███     ███       ███    ███     ███     ███    ███ ███   ███   ███ \n" + //
-                        " ▄████▀       ▀██████▀     ▄████▀     ███    █▀     ▄████▀    ▀██████▀   ▀█   ███   █▀  \n" + //
+                        "   ▄███████▄  ▄██████▄      ███        ▄████████     ███      ▄██████▄    ▄▄▄▄███▄▄▄▄   \n" +
+                        "  ███    ███ ███    ███ ▀█████████▄   ███    ███ ▀█████████▄ ███    ███ ▄██▀▀▀███▀▀▀██▄ \n" +
+                        "  ███    ███ ███    ███    ▀███▀▀██   ███    ███    ▀███▀▀██ ███    ███ ███   ███   ███ \n" +
+                        "  ███    ███ ███    ███     ███   ▀   ███    ███     ███   ▀ ███    ███ ███   ███   ███ \n" +
+                        "▀█████████▀  ███    ███     ███     ▀███████████     ███     ███    ███ ███   ███   ███ \n" +
+                        "  ███        ███    ███     ███       ███    ███     ███     ███    ███ ███   ███   ███ \n" +
+                        "  ███        ███    ███     ███       ███    ███     ███     ███    ███ ███   ███   ███ \n" +
+                        " ▄████▀       ▀██████▀     ▄████▀     ███    █▀     ▄████▀    ▀██████▀   ▀█   ███   █▀  \n" +
                         "                                                                                        ");
 	}
 
@@ -30,6 +31,8 @@ public class QuestSys extends JavaPlugin {
 		saveDefaultConfig();
 
 		getServer().getPluginManager().registerEvents(EventListener.PickMe(), this);
+
+		DBController.PickMe().LoadQuests();
 
 		RegCommands();
 

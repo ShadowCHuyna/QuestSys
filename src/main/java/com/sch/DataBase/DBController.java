@@ -1,0 +1,114 @@
+package com.sch.DataBase;
+
+import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.Array;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
+
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
+
+import com.sch.QuestSys;
+import com.sch.Conditions.Condition;
+import com.sch.Executors.Executor;
+import com.sch.Executors.ExecutorManager;
+import com.sch.Quest.Quest;
+import com.sch.Quest.QuestFactory;
+import com.sch.Quest.QuestManager;
+
+public class DBController {
+    private FileConfiguration db;
+    private final QuestManager questManager = QuestManager.PickMe();
+    private final QuestFactory questFactory = QuestFactory.PickMe();
+    private final ExecutorManager executorManager = ExecutorManager.PickMe();
+    private File dbFile;
+
+
+	private static DBController instance;
+
+	public static DBController PickMe() {
+		if (DBController.instance == null)
+			DBController.instance = new DBController();
+		return DBController.instance;
+	}
+    
+    private DBController(){
+        dbFile = new File(QuestSys.PickMe().getDataFolder(), "quests.yml");
+        if (!dbFile.exists())
+            try {dbFile.createNewFile();} catch (IOException e) {e.printStackTrace();}
+        db = YamlConfiguration.loadConfiguration(dbFile);
+    }
+
+    public void SaveQuests(){
+        Quest[] quests = questManager.GetAllQuests();
+        for (Quest quest : quests) {
+            String path = quest.GetUUID().toString()+"."; 
+            db.set(path+"id", quest.GetId());
+            db.set(path+"start_time", quest.GetStartTime());
+            db.set(path+"is_end", quest.IsEnd());
+            ArrayList<String> executorNicks = new ArrayList<>();
+            for (Executor executor : quest.GetExecutors()) executorNicks.add(executor.GetNick());
+            db.set(path+"executors", executorNicks);
+            List<Map<String, Object>> conditions = new ArrayList<>();
+			for (Condition condition : quest.GetConditions()) conditions.add(condition.GetData());
+			db.set(path+"conditions", conditions);
+        }
+        
+        try {db.save(dbFile);} catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void LoadQuests(){
+        // questManager.Put(null, null);
+        Set<String> keys = db.getKeys(false);
+        for (String key : keys) {
+            String id = db.getString(key+".id");
+            Quest quest = questFactory.CreateQuestByID(id);
+            
+            quest.SetStartTime(db.getLong(key+".start_time"));
+            UUID uuid = UUID.fromString(key);
+            quest.SetUUID(uuid);
+            quest.SetIsEnd(db.getBoolean(key+".is_end"));
+            
+            
+            List<Map<String, Object>> conditions = (List<Map<String, Object>>)db.get(key+".conditions");
+            
+            // @TODO пиздец
+            ArrayList<Condition> bl = new ArrayList<>();
+            for (Map<String, Object> conditionData : conditions) {
+                String conditionName = conditionData.keySet().toArray(new String[0])[0];
+
+                for (Condition condition : quest.GetConditions()) {
+                    if(bl.contains(condition) || !condition.GetName().equalsIgnoreCase(conditionName) ) continue;
+
+                    condition.SetData((Map<String, Object>)conditionData.get(conditionName));
+                    bl.add(condition);
+                    break;
+                }
+            }
+
+            ArrayList<Executor> executors = new ArrayList<>();
+            List<String> executorNicks = db.getStringList(key+".executors");
+            for (String nick : executorNicks) {
+                executorManager.Put(nick);
+                executors.add(executorManager.Get(nick));
+            }
+
+            quest.AddExecutors(executors);
+
+            questManager.Put(quest, uuid);
+
+        }
+        for (Quest q : questManager.GetAllQuests()) {
+            System.out.println(q.toString());
+        }
+    }
+}
