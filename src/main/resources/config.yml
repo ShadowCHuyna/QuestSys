@@ -11,6 +11,10 @@ all:
                         - say {player} aboba
                     on_fail:
                         - say {player} ne aboba
+                    on_complite_once:
+                        - say {UUID} quest end aboba
+                    on_fail_once:
+                        - say {UUID} quest end ne aboba
                     conditions:
                         - walk:
                             # block: dirt
@@ -29,7 +33,7 @@ all:
                                 - 100
                         - block:
                             action: click # placement | destroy | l_click | r_click
-                            block: ice
+                            # block: ice
                             range: 
                                 - 10
                                 - 100

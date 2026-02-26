@@ -3,6 +3,7 @@ package com.sch;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.sch.Commands.QuestSysCmdRouter;
+import com.sch.Commands.QuestSysTabRouter;
 import com.sch.DataBase.DBController;
 import com.sch.Events.EventListener;
 
@@ -32,6 +33,7 @@ public class QuestSys extends JavaPlugin {
 
 		getServer().getPluginManager().registerEvents(EventListener.PickMe(), this);
 
+		DBController.PickMe().init(this.getDataFolder());
 		DBController.PickMe().LoadQuests();
 
 		RegCommands();
@@ -41,11 +43,13 @@ public class QuestSys extends JavaPlugin {
 
 	@Override
 	public void onDisable() {
+		DBController.PickMe().SaveQuests();
 		System.out.println("Disable QuestSys!!!");
 	}
 
 	private void RegCommands(){
-        getCommand("QuestSys").setExecutor(new QuestSysCmdRouter());
+        getCommand("questsys").setExecutor(new QuestSysCmdRouter());
+		getCommand("questsys").setTabCompleter(new QuestSysTabRouter());
     }
 
 }

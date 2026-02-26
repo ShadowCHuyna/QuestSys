@@ -5,9 +5,16 @@ import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.scoreboard.Criteria;
+import org.bukkit.scoreboard.Objective;
+import org.bukkit.scoreboard.Score;
+import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.ScoreboardManager;
 
 import com.sch.Conditions.Condition;
 import com.sch.Executors.Executor;
+
+import net.kyori.adventure.text.Component;
 
 public class Quest {
 	private ArrayList<Condition> conditions = new ArrayList<Condition>();
@@ -17,18 +24,23 @@ public class Quest {
 	private String name;
 	private String id;
 	private String description;
-	private double exp;
+	private int exp;
 	private String scoreboard;
 	private long liveTime = -1;
 
 	private String[] onCompliteCmds;
 	private String[] onFailCmds;
+	String[] onCompliteOnceCmds;
+	String[] onFailOnceCmds;
 
 	private boolean isEnd = false;
 	private boolean isFail = false;
 	private long startTime = -1;
 
-	private QuestManager questManager = QuestManager.PickMe();
+	public void Delete(){
+		RemoveExecutors(executors);
+		
+	}
 
 	public Quest(
 				// ArrayList<Executor> executors, 
@@ -36,11 +48,13 @@ public class Quest {
 				String name, 
 				String id, 
 				String description, 
-				double exp, 
+				int exp, 
 				// String scoreboard, 
 				long liveTime,
 				String[] onCompliteCmds,
-				String[] onFailCmds
+				String[] onFailCmds,
+				String[] onCompliteOnceCmds,
+				String[] onFailOnceCmds
 			){
 		// this.uuid = questManager.Put(this);
 		
@@ -53,7 +67,9 @@ public class Quest {
 
 		this.onCompliteCmds = onCompliteCmds;
 		this.onFailCmds = onFailCmds;
-
+		this.onCompliteOnceCmds = onCompliteOnceCmds;
+		this.onFailOnceCmds = onFailOnceCmds;
+		
 		AddExecutors(new ArrayList<Executor>());
 		AddCondition(conditions);
 
@@ -117,7 +133,6 @@ public class Quest {
 		if(flag) onComplite();
 	}
 
-	// @TODO ждать пока игрок зайдет
 	public void onFail(){
 		isFail = true;
 		isEnd = true;
@@ -127,18 +142,36 @@ public class Quest {
 			for (String cmd : onFailCmds) 
 				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd.replace("{player}", player.getName()));
 		}
+		for (String cmd : onFailOnceCmds) 
+			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd.replace("{UUID}", uuid.toString()));
 	}
 
-	// @TODO scoreboard
-	// @TODO ждать пока игрок зайдет
+	private void addExp(){
+		ScoreboardManager manager = Bukkit.getScoreboardManager();
+		Scoreboard board = manager.getMainScoreboard();
+
+		Objective objective = board.getObjective("questsys");
+		if(objective==null)
+			objective = board.registerNewObjective("questsys", Criteria.DUMMY, Component.text("questsys") );
+
+		Score score = objective.getScore(scoreboard);
+		int current = score.getScore() | 0;
+		score.setScore(current+exp);
+	}
+
+
 	public void onComplite(){
 		isEnd = true;
+		addExp();
 		for (Executor executor : executors){
 			Player player = executor.GetPlayer(); 
 			if(player == null) continue;
 			for (String cmd : onCompliteCmds) 
 				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd.replace("{player}", player.getName()));
 		}
+		for (String cmd : onCompliteOnceCmds) 
+			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd.replace("{UUID}", uuid.toString()));
+		
 	}
 
 	public boolean CheckLiveTime(){

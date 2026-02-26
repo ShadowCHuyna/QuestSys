@@ -10,9 +10,11 @@ public enum EventTypes{
 	BlockBreakEvent,
 	BlockPlaceEvent,
 	PlayerMoveEvent,
+	PlayerJumpEvent,
 	EntityDamageByEntityEvent,
 	PlayerSwapHandItemsEvent,
 	PlayerToggleSneakEvent,
 	PlayerInteractAtEntityEvent,
-	PlayerItemConsumeEvent
+	PlayerItemConsumeEvent,
+	CraftItemEvent
 }

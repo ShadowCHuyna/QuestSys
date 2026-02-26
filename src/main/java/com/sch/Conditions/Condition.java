@@ -29,7 +29,7 @@ public abstract class Condition {
 		subscribe = new Subscribe(eventType, new ArrayList<Executor>(), (Event e)->{onEvent(e);});
 	}
 
-	protected abstract void onEvent(Event event);
+	protected abstract void onEvent(Event e);
 	
 	public String GetName(){ return name; }
 

@@ -1,3 +1,5 @@
+.PHONY: install run build
+
 all:
 	mvn clean package
 	mkdir -p ./server/plugins

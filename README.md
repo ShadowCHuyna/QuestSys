@@ -1,40 +1,41 @@
 server core: [purpur](https://purpurmc.org/download/purpur)
 
 TODO:
-- [X] db
-- [ ] SCOREBOARD
+- [ ] необязательные поля
+- [ ] фабрика условий полная хуйня
 
-сохранять данные так:
+сохраняются данные так:
 ```yml
 uuid:
-  id: example_id
-  start_time: 1984
-  is_end: false
-  executors:
-    - nick
-    - nick
-    - nick
-    - nick
-  conditions:
-	  - walk:
-		  # block: DIRT
-		  target_count: 10
-		  count: 5
+    id: example_id
+    start_time: 1984
+    is_end: false
+    executors:
+        - nick
+        - nick
+        - nick
+        - nick
+    conditions:
+          - walk:
+                # block: DIRT
+                target_count: 10
+                count: 5
 ```
 
 cmds:
-- [X] /QuestSys add clan.daily.easy {SCOREBOARD} {PLAYER_0} {PLAYER_1} {PLAYER_n}
-- [ ] /QuestSys {QWEST_UUID} remove {PLAYER} {PLAYER_n}
-- [ ] /QuestSys {QWEST_UUID} append {PLAYER} {PLAYER_n}
-- [X] /QuestSys get {PLAYER}
+- /questsys add clan.daily.easy {SCOREBOARD} {PLAYER_0} {PLAYER_1} {PLAYER_n}
+- /questsys {QWEST_UUID} remove {PLAYER} {PLAYER_n}
+- /questsys {QWEST_UUID} append {PLAYER} {PLAYER_n}
+- /questsys {QWEST_UUID} delete
+- /questsys get {PLAYER}
 
 conditions:
 - [X] walk
-- [ ] jump
-- [ ] kill
-- [ ] block
-- [ ] damage
-- [ ] craft
+- [X] jump
+- [X] kill
+- [X] block
+- [X] damage
+- [X] craft
 
 config example:
 ```yml

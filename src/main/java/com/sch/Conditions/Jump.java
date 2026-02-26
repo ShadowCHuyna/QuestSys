@@ -1,37 +1,30 @@
 package com.sch.Conditions;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.bukkit.Material;
 import org.bukkit.event.Event;
 import org.bukkit.event.player.PlayerMoveEvent;
 
+import com.destroystokyo.paper.event.player.PlayerJumpEvent;
 import com.sch.Events.EventTypes;
 
-import org.bukkit.Material;
-
-public class Walk extends Condition {
+public class Jump extends Condition {
 	private Material block;
 
-	public Walk(double targetCount, Material block) {
-		super("walk", EventTypes.PlayerMoveEvent, targetCount);
+	public Jump(double targetCount, Material block) {
+		super("jump", EventTypes.PlayerJumpEvent, targetCount);
 		this.block = block;
 	}
 
 	@Override
 	protected void onEvent(Event event) {
-		PlayerMoveEvent e = (PlayerMoveEvent) event;
-		double dist = e.getTo().clone().subtract(e.getFrom()).length();
-		Material m = e.getTo().clone().subtract(0, 1, 0).getBlock().getType();
+		PlayerJumpEvent e = (PlayerJumpEvent) event;
+		Material m = e.getFrom().getBlock().getType();
 		if(block != null && m.asBlockType() != block.asBlockType()) return;
-		count+=dist;
+		count++;
 		checkCondition();
-	}
-
-	@Override
-	public String toString(){
-		return "Walk distance: "+this.count+ " target: " + this.GetTargetCount();
 	}
 
 	@Override
@@ -43,7 +36,7 @@ public class Walk extends Condition {
 		data.put("count", this.count);
 
 		Map<String, Object> wrapper = new LinkedHashMap<>();
-    	wrapper.put("walk", data);
+    	wrapper.put("jump", data);
 		return wrapper;
 	}
 
@@ -53,4 +46,5 @@ public class Walk extends Condition {
 		targetCount = (double)data.get("target_count");
 		count = (double)data.get("count");
 	}
+	
 }

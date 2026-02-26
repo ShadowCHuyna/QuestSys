@@ -18,6 +18,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.player.PlayerEvent;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -29,6 +30,7 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.player.PlayerSwapHandItemsEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 
+import com.destroystokyo.paper.event.player.PlayerJumpEvent;
 import com.destroystokyo.paper.event.player.PlayerPostRespawnEvent;
 import com.sch.QuestSys;
 import com.sch.Executors.Executor;
@@ -57,11 +59,13 @@ public class EventListener implements Listener {
                 BlockBreakEvent.class,
                 BlockPlaceEvent.class,
                 PlayerMoveEvent.class,
+				PlayerJumpEvent.class,
                 EntityDamageByEntityEvent.class,
                 PlayerSwapHandItemsEvent.class,
                 PlayerToggleSneakEvent.class,
                 PlayerInteractAtEntityEvent.class,
-                PlayerItemConsumeEvent.class
+                PlayerItemConsumeEvent.class,
+				CraftItemEvent.class
         ).collect(Collectors.toSet());
 
 		for (Class<? extends Event> eventClass : eventClasses) {
@@ -148,8 +152,11 @@ public class EventListener implements Listener {
 
 		if (event instanceof PlayerEvent pe) {
 			player = pe.getPlayer();
-		} else if (event instanceof EntityDamageByEntityEvent ede && ede.getDamager() instanceof Player p) {
-			player = p;
+		} else if (event instanceof EntityDamageByEntityEvent ede && (ede.getDamager() instanceof Player || ede.getEntity() instanceof Player)) {
+			if(ede.getDamager() instanceof Player) player = (Player)ede.getDamager();
+			else if(ede.getEntity() instanceof Player)player = (Player)ede.getEntity();
+		} else if(event instanceof CraftItemEvent ce){
+			player = ce.getWhoClicked().getKiller();
 		}
 
 		if (player != null) {

@@ -2,6 +2,7 @@ package com.sch.Commands;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.UUID;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -23,10 +24,11 @@ public class QuestSysCmdRouter implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String @NotNull [] args) {
-		// /QuestSys add clan.daily.easy {SCOREBOARD} {PLAYER_0} {PLAYER_1} {PLAYER_n}
-		// /QuestSys {QWEST_UUID} remove {PLAYER} {PLAYER_n}
-		// /QuestSys {QWEST_UUID} append {PLAYER} {PLAYER_n}
-		// /QuestSys get {PLAYER}
+		// /questsys add clan.daily.easy {SCOREBOARD} {PLAYER_0} {PLAYER_1} {PLAYER_n}
+		// /questsys {QWEST_UUID} remove {PLAYER} {PLAYER_n}
+		// /questsys {QWEST_UUID} append {PLAYER} {PLAYER_n}
+		// /questsys {QWEST_UUID} delete
+		// /questsys get {PLAYER}
 
 		if (args.length < 2) return ErrorCmd(sender);
 
@@ -38,17 +40,40 @@ public class QuestSysCmdRouter implements CommandExecutor {
 			return Remove(sender, args[0], Arrays.copyOfRange(args, 2, args.length));
 		}else if(args[1].equalsIgnoreCase("append")){
 			return Append(sender, args[0], Arrays.copyOfRange(args, 2, args.length));
+		}else if(args[1].equalsIgnoreCase("delete")){
+			return Delete(sender, args[0]);
 		}
 
 		return ErrorCmd(sender);
 	}
 
 	private boolean Remove(CommandSender sender, String uuid, String[] players){
-		return false;
+		if(players.length==0) return ErrorCmd(sender);
+
+		Quest quest = questManager.Get(UUID.fromString(uuid));
+		ArrayList<Executor> executors = new ArrayList<>();
+		for (String player : players) executors.add(executorManager.Put(player));
+		quest.RemoveExecutors(executors);
+
+		dbController.SaveQuests();
+		return true;
 	}
 
 	private boolean Append(CommandSender sender, String uuid, String[] players){
-		return false;
+		if(players.length==0) return ErrorCmd(sender);
+		
+		Quest quest = questManager.Get(UUID.fromString(uuid));
+		ArrayList<Executor> executors = new ArrayList<>();
+		for (String player : players) executors.add(executorManager.Put(player));
+		quest.AddExecutors(executors);
+
+		dbController.SaveQuests();
+		return true;
+	}
+
+	private boolean Delete(CommandSender sender, String uuid){
+		questManager.Remove(UUID.fromString(uuid));
+		return true;
 	}
 
 	private boolean Get(CommandSender sender, String player){
@@ -80,8 +105,6 @@ public class QuestSysCmdRouter implements CommandExecutor {
 			quest.SetNewUUID();
 			questManager.Put(quest);
 
-			dbController.SaveQuests();
-
 			sender.sendMessage(quest.GetUUID().toString());
 		} catch (Exception e) {
 			sender.sendMessage(e.toString());
@@ -93,10 +116,11 @@ public class QuestSysCmdRouter implements CommandExecutor {
 
 	private boolean ErrorCmd(CommandSender sender){
 		sender.sendMessage(
-			"/QuestSys add clan.daily.easy {SCOREBOARD} {PLAYER_0} {PLAYER_1} {PLAYER_n}\n" +
-			"/QuestSys {QWEST_UUID} remove {PLAYER} {PLAYER_n}\n" +
-			"/QuestSys {QWEST_UUID} append {PLAYER} {PLAYER_n}\n" +
-			"/QuestSys get {PLAYER}"
+			"/questsys add clan.daily.easy {SCOREBOARD} {PLAYER_0} {PLAYER_1} {PLAYER_n}\n" +
+			"/questsys {QWEST_UUID} remove {PLAYER} {PLAYER_n}\n" +
+			"/questsys {QWEST_UUID} append {PLAYER} {PLAYER_n}\n" +
+			"/questsys {QWEST_UUID} delete\n" +
+			"/questsys get {PLAYER}"
 		);
 		return false;
 	}

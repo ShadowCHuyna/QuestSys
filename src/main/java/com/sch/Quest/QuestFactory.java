@@ -28,6 +28,28 @@ public class QuestFactory {
 		this.root = QuestSys.PickMe().getConfig().getConfigurationSection("all");
 	}
 
+	public List<String> getAllPaths() {
+		List<String> paths = new ArrayList<>();
+		collectPaths(root, "", paths);
+		return paths;
+	}
+
+	private void collectPaths(ConfigurationSection section, String prefix, List<String> paths) {
+		for (String key : section.getKeys(false)) {
+			Object value = section.get(key);
+
+			// Игнорируем секции с ключом "conditions"
+			if (value instanceof ConfigurationSection childSection) {
+				String newPrefix = prefix.isEmpty() ? key : prefix + "." + key;
+
+				collectPaths(childSection, newPrefix, paths);
+				paths.add(newPrefix);
+				if (childSection.contains("conditions")) continue;
+
+			}
+		}
+	}
+
 	public Quest CreateQuest(String groupOrId) {
 		ConfigurationSection section = root;
 		String[] path = groupOrId.split("\\.");
@@ -84,12 +106,20 @@ public class QuestFactory {
 	}
 	
 	private Quest buildQuest(ConfigurationSection section) {
+		
+		// @TODO необязательные
 		String name = section.getString("name");
 		String description = section.getString("description");
-		int exp = section.getInt("exp");
-		long live_time = section.getLong("live_time");
+
 		List<String> on_complite = section.getStringList("on_complite");
 		List<String> on_fail = section.getStringList("on_fail");
+		List<String> on_complite_once = section.getStringList("on_complite_once");
+		List<String> on_fail_once = section.getStringList("on_fail_once");
+
+		
+		int exp = section.getInt("exp");
+		long live_time = section.getLong("live_time");
+
 
 
 		ArrayList<Condition> conditions = conditionFactory.CreateCondition(section);
@@ -101,7 +131,9 @@ public class QuestFactory {
 						exp, 
 						live_time, 
 						on_complite.toArray(new String[0]), 
-						on_fail.toArray(new String[0])
+						on_fail.toArray(new String[0]),
+						on_complite_once.toArray(new String[0]),
+						on_fail_once.toArray(new String[0])
 					);
 	}
 }
