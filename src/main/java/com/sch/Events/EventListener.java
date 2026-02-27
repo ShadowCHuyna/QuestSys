@@ -156,7 +156,7 @@ public class EventListener implements Listener {
 			if(ede.getDamager() instanceof Player) player = (Player)ede.getDamager();
 			else if(ede.getEntity() instanceof Player)player = (Player)ede.getEntity();
 		} else if(event instanceof CraftItemEvent ce){
-			player = ce.getWhoClicked().getKiller();
+			player = (Player) ce.getWhoClicked();
 		}
 
 		if (player != null) {

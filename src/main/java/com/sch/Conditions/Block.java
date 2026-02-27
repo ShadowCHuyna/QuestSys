@@ -6,10 +6,10 @@ import java.util.Map;
 import org.bukkit.Material;
 import org.bukkit.event.Event;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-import com.destroystokyo.paper.event.block.BlockDestroyEvent;
 import com.sch.Events.EventTypes;
 
 enum ActionTypes {
@@ -33,7 +33,7 @@ public class Block extends Condition {
 	@Override
 	protected void onEvent(Event event) {
 		if(event instanceof BlockPlaceEvent e) place(e);
-		else if (event instanceof BlockDestroyEvent e) destroy(e);
+		else if (event instanceof BlockBreakEvent e) destroy(e);
 		else if (event instanceof PlayerInteractEvent e) click(e);
 	}
 
@@ -43,16 +43,12 @@ public class Block extends Condition {
 		if(block == null){
 			if (actionType == ActionTypes.click) {
 				count++;
-			}else if(actionType == ActionTypes.l_click && 
-				(event.getAction() == Action.LEFT_CLICK_AIR 
-				|| event.getAction() == Action.LEFT_CLICK_BLOCK)){
+			}else if(actionType == ActionTypes.l_click && event.getAction() == Action.LEFT_CLICK_BLOCK){
 					count++;
-			}else if(actionType == ActionTypes.r_click && 
-				(event.getAction() == Action.RIGHT_CLICK_AIR 
-				|| event.getAction() == Action.RIGHT_CLICK_BLOCK)){
+			}else if(actionType == ActionTypes.r_click && event.getAction() == Action.RIGHT_CLICK_BLOCK){
 					count++;
 			}
-		}else if(event.getMaterial() == block){
+		}else if(event.getClickedBlock() != null && event.getClickedBlock().getType() == block){
 			if (actionType == ActionTypes.click) {
 				count++;
 			}else if(actionType == ActionTypes.l_click && event.getAction() == Action.LEFT_CLICK_BLOCK){
@@ -64,7 +60,7 @@ public class Block extends Condition {
 		if(start_c!=count)checkCondition();
 	}
 
-	private void destroy(BlockDestroyEvent event){
+	private void destroy(BlockBreakEvent event){
 		if(actionType != ActionTypes.destroy) return;
 		if(block!= null && event.getBlock().getType()!=block) return;
 		count++;

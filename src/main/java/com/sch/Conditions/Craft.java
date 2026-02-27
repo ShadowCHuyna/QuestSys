@@ -20,7 +20,7 @@ public class Craft extends Condition {
 	@Override
 	protected void onEvent(Event e) {
 		CraftItemEvent event = (CraftItemEvent)e;
-		if(item != null && item!=event.getCursor().getType())return;
+		if(item != null && event.getRecipe() != null && item != event.getRecipe().getResult().getType()) return;
 		count++;
 		checkCondition();
 	}
