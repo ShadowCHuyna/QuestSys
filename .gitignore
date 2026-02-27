@@ -2,3 +2,8 @@ target
 server
 .vscode
 node_modules
+.classpath
+.project
+.factorypath
+.settings
+package-lock.json

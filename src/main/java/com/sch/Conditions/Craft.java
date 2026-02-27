@@ -1,7 +1,9 @@
 package com.sch.Conditions;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import org.bukkit.Material;
 import org.bukkit.event.Event;
@@ -11,10 +13,29 @@ import com.sch.Events.EventTypes;
 
 public class Craft extends Condition {
 	private Material item;
+	private static final Random RANDOM = new Random();
 
 	public Craft(Material item, double targetCount) {
 		super("craft", EventTypes.CraftItemEvent, targetCount);
 		this.item = item;
+	}
+
+	public static Condition create(Map<?, ?> values) {
+		Material material = null;
+		if (values.get("item") instanceof String in) {
+			material = Material.getMaterial(in);
+		}
+		double targetCount = parseRange(values.get("range"));
+		return new Craft(material, targetCount);
+	}
+
+	private static double parseRange(Object rangeObj) {
+		if (rangeObj instanceof List<?> range) {
+			int min = ((Number) range.get(0)).intValue();
+			int max = ((Number) range.get(1)).intValue();
+			return RANDOM.nextDouble() * (max - min + 1) + min;
+		}
+		return 1;
 	}
 
 	@Override

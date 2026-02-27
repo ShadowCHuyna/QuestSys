@@ -1,9 +1,10 @@
 package com.sch.Conditions;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
-import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
@@ -11,15 +12,33 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
-import com.destroystokyo.paper.event.player.PlayerJumpEvent;
 import com.sch.Events.EventTypes;
 
 public class Kill extends Condition {
 	private EntityType entityType;
+	private static final Random RANDOM = new Random();
 
 	public Kill(double targetCount, EntityType entityType) {
 		super("kill", EventTypes.EntityDamageByEntityEvent, targetCount);
 		this.entityType = entityType;
+	}
+
+	public static Condition create(Map<?, ?> values) {
+		EntityType entityType = null;
+		if (values.get("entity") instanceof String en) {
+			entityType = EntityType.valueOf(en.toLowerCase());
+		}
+		double targetCount = parseRange(values.get("range"));
+		return new Kill(targetCount, entityType);
+	}
+
+	private static double parseRange(Object rangeObj) {
+		if (rangeObj instanceof List<?> range) {
+			int min = ((Number) range.get(0)).intValue();
+			int max = ((Number) range.get(1)).intValue();
+			return RANDOM.nextDouble() * (max - min + 1) + min;
+		}
+		return 1;
 	}
 
 	@Override

@@ -1,7 +1,9 @@
 package com.sch.Conditions;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import org.bukkit.Material;
 import org.bukkit.event.Event;
@@ -23,11 +25,37 @@ enum ActionTypes {
 public class Block extends Condition {
 	private ActionTypes actionType;
 	private Material block;
-	
+	private static final Random RANDOM = new Random();
+
 	public Block(ActionTypes actionType, Material block, double targetCount, EventTypes type) {
 		super("block", type, targetCount);
 		this.actionType = actionType;
 		this.block = block;
+	}
+
+	public static Condition create(Map<?, ?> values) {
+		Material material = null;
+		if (values.get("block") instanceof String bn) {
+			material = Material.getMaterial(bn.toUpperCase());
+		}
+		ActionTypes actionType = ActionTypes.valueOf(((String) values.get("action")).toLowerCase());
+		
+		EventTypes eventType;
+		if (actionType == ActionTypes.destroy) eventType = EventTypes.BlockBreakEvent;
+		else if (actionType == ActionTypes.placement) eventType = EventTypes.BlockPlaceEvent;
+		else eventType = EventTypes.PlayerInteractEvent;
+		
+		double targetCount = parseRange(values.get("range"));
+		return new Block(actionType, material, targetCount, eventType);
+	}
+
+	private static double parseRange(Object rangeObj) {
+		if (rangeObj instanceof List<?> range) {
+			int min = ((Number) range.get(0)).intValue();
+			int max = ((Number) range.get(1)).intValue();
+			return RANDOM.nextDouble() * (max - min + 1) + min;
+		}
+		return 1;
 	}
 
 	@Override

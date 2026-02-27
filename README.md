@@ -2,7 +2,6 @@ server core: [purpur](https://purpurmc.org/download/purpur)
 
 TODO:
 - [ ] необязательные поля
-- [ ] фабрика условий полная хуйня
 
 сохраняются данные так:
 ```yml

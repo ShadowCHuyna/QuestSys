@@ -1,7 +1,9 @@
 package com.sch.Conditions;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -19,11 +21,31 @@ enum DamageDirections {
 public class Damage extends Condition {
 	EntityType entity;
 	DamageDirections direction;
+	private static final Random RANDOM = new Random();
 
 	public Damage(EntityType entity, DamageDirections direction, double targetCount) {
 		super("damage", EventTypes.EntityDamageByEntityEvent, targetCount);
 		this.entity = entity;
 		this.direction = direction;
+	}
+
+	public static Condition create(Map<?, ?> values) {
+		EntityType entityType = null;
+		if (values.get("entity") instanceof String en) {
+			entityType = EntityType.valueOf(en);
+		}
+		DamageDirections direction = DamageDirections.valueOf((String) values.get("direction"));
+		double targetCount = parseRange(values.get("range"));
+		return new Damage(entityType, direction, targetCount);
+	}
+
+	private static double parseRange(Object rangeObj) {
+		if (rangeObj instanceof List<?> range) {
+			int min = ((Number) range.get(0)).intValue();
+			int max = ((Number) range.get(1)).intValue();
+			return RANDOM.nextDouble() * (max - min + 1) + min;
+		}
+		return 1;
 	}
 
 	@Override

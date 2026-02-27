@@ -1,22 +1,41 @@
 package com.sch.Conditions;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
+import org.bukkit.Material;
 import org.bukkit.event.Event;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 import com.sch.Events.EventTypes;
 
-import org.bukkit.Material;
-
 public class Walk extends Condition {
 	private Material block;
+	private static final Random RANDOM = new Random();
 
 	public Walk(double targetCount, Material block) {
 		super("walk", EventTypes.PlayerMoveEvent, targetCount);
 		this.block = block;
+	}
+
+	public static Condition create(Map<?, ?> values) {
+		Material block = null;
+		if (values.get("block") instanceof String bn) {
+			block = Material.getMaterial(bn.toUpperCase());
+		}
+		double targetCount = parseRange(values.get("range"));
+		return new Walk(targetCount, block);
+	}
+
+	private static double parseRange(Object rangeObj) {
+		if (rangeObj instanceof List<?> range) {
+			int min = ((Number) range.get(0)).intValue();
+			int max = ((Number) range.get(1)).intValue();
+			return RANDOM.nextDouble() * (max - min + 1) + min;
+		}
+		return 1;
 	}
 
 	@Override
