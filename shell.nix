@@ -5,6 +5,8 @@ pkgs.mkShell {
     jdk21
     maven
     gnumake
+	nodejs
+    nodePackages.npm
   ];
 
   shellHook = ''

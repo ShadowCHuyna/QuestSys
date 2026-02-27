@@ -134,6 +134,7 @@ public class Quest {
 	}
 
 	public void onFail(){
+		if(isFail || isEnd) return;
 		isFail = true;
 		isEnd = true;
 		for (Executor executor : executors){
@@ -191,24 +192,17 @@ public class Quest {
 
 	@Override
 	public String toString(){
-		String str = "Quest{" +
-				"\tuuid: " + uuid + "\n" +	
-				"\tname: " + name + "\n" +
-				"\tid: " + id + "\n" + 
-				"\tdescription: " + description + "\n" +
-				"\texp: " + exp + "\n" +
-				"\tliveTime: " + liveTime + "\n" +
-				"\tisFail: " + isFail + "\n" +
-				"\tisEnd: " + isEnd + "\n" +
-				"\tstartTime: " + startTime + "\n" +
-				"\tconditions: [\n";
+		String str = uuid.toString()+"\n" +	
+				"    name: " + name + "\n" +
+				"    id: " + id + "\n" + 
+				"    is_end: " + isEnd + "\n" +
+				"    start_time: " + startTime + "\n" +
+				"    conditions:\n";
 		for (Condition condition : conditions)
-			str += "\t\t" + condition.toString() + "\n";
-		str += "\t]\n";
-		str += "\texecutors: [\n";
+			str += "        - " + condition.toString().replace("\n", "\n        ") + "\n";
+		str += "    executors:\n";
 		for (Executor executor : executors)
-			str += "\t\t" + executor.toString() + "\n";
-		str += "\t]";
+			str += "        - " + executor.toString() + "\n";
 		return str;
 	}
 }

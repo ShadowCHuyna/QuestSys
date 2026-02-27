@@ -75,4 +75,16 @@ public class Damage extends Condition {
 		count = (double)data.get("count");
 	}
 	
+	@Override
+	public String toString(){
+		String str = "damage:\n"+ 
+				"    count: "+this.count+ 
+				"\n    target_count: " + this.GetTargetCount()+
+				"\n    direction: "+direction.name();
+
+		if(entity!=null)
+			str+="\n    entity: "+entity.name();
+		
+		return str;
+	}
 }

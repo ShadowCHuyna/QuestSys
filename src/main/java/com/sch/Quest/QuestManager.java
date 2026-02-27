@@ -42,8 +42,8 @@ public class QuestManager {
 	}
 
 	public UUID Put(Quest quest, UUID uuid) {
-		quests.put(uuid, quest);
-		liveQuests.add(quest);
+		quests.put(uuid, quest);		
+		if(!quest.IsEnd() && !quest.IsFail()) liveQuests.add(quest);
 		dbController.SaveQuests();
 		return uuid;
 	}

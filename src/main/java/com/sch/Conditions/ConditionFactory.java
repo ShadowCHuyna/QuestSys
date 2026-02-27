@@ -36,24 +36,24 @@ public class ConditionFactory {
 				// @TODO хуйня
 				if(type.equalsIgnoreCase("walk")){
 					Material material = null;
-					if (values.get("block") instanceof String bn) material = Material.getMaterial(bn);
+					if (values.get("block") instanceof String bn) material = Material.getMaterial(bn.toUpperCase());
 
 					Walk c = new Walk(targetCount, material);
 					out.add(c);
 				}else if(type.equalsIgnoreCase("jump")){
 					Material material = null;
-					if (values.get("block") instanceof String bn) material = Material.getMaterial(bn);
+					if (values.get("block") instanceof String bn) material = Material.getMaterial(bn.toUpperCase());
 					Jump c = new Jump(targetCount, material);
 					out.add(c);
 				}else if(type.equalsIgnoreCase("kill")){
 					EntityType entityType = null;
-					if (values.get("entity") instanceof String en) entityType = EntityType.valueOf(en);
+					if (values.get("entity") instanceof String en) entityType = EntityType.valueOf(en.toLowerCase());
 					Kill c = new Kill(targetCount, entityType);
 					out.add(c);
 				}else if(type.equalsIgnoreCase("block")){
 					Material material = null;
-					ActionTypes actionType = ActionTypes.valueOf((String)values.get("action"));
-					if (values.get("block") instanceof String bn) material = Material.getMaterial(bn);
+					ActionTypes actionType = ActionTypes.valueOf(((String)values.get("action")).toLowerCase());
+					if (values.get("block") instanceof String bn) material = Material.getMaterial(bn.toUpperCase());
 					EventTypes et = null;
 					if(actionType == ActionTypes.destroy) et = EventTypes.BlockBreakEvent;
 					else if(actionType == ActionTypes.placement) et = EventTypes.BlockPlaceEvent;

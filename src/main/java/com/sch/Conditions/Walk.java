@@ -31,7 +31,13 @@ public class Walk extends Condition {
 
 	@Override
 	public String toString(){
-		return "Walk distance: "+this.count+ " target: " + this.GetTargetCount();
+		String str = "walk:\n"+ 
+				"    count: "+this.count+ 
+				"\n    target_count: " + this.GetTargetCount();
+
+		if(block!=null)
+			str+="\n    block: "+block.name();
+		return str;
 	}
 
 	@Override

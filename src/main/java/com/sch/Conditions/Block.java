@@ -100,4 +100,15 @@ public class Block extends Condition {
 		count = (double)data.get("count");
 	}
 	
+	@Override
+	public String toString(){
+		String str = "block:\n"+ 
+				"    count: "+this.count+ 
+				"\n    target_count: " + this.GetTargetCount()+
+				"\n    action: "+actionType.name();
+
+		if(block!=null)
+			str+="\n    block: "+block.name();	
+		return str;
+	}
 }

@@ -18,4 +18,8 @@ public class Executor {
 	public final Player GetPlayer(){return player;}
 
 	public final String GetNick(){return nick;}
+
+	public String toString(){
+		return nick;
+	}
 }

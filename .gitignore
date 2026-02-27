@@ -1,3 +1,4 @@
 target
 server
 .vscode
+node_modules

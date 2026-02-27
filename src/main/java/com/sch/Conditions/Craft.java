@@ -44,5 +44,17 @@ public class Craft extends Condition {
 		targetCount = (double)data.get("target_count");
 		count = (double)data.get("count");
 	}
+
+	@Override
+	public String toString(){
+		String str = "craft:\n"+ 
+				"    count: "+this.count+ 
+				"\n    target_count: " + this.GetTargetCount();
+
+		if(item!=null)
+			str+="\n    item: "+item.name();
+		
+		return str;
+	}
 	
 }

@@ -47,4 +47,14 @@ public class Jump extends Condition {
 		count = (double)data.get("count");
 	}
 	
+	@Override
+	public String toString(){
+		String str = "jump:\n"+ 
+				"    count: "+this.count+ 
+				"\n    target_count: " + this.GetTargetCount();
+
+		if(block!=null)
+			str+="\n    block: "+block.name();
+		return str;
+	}
 }
