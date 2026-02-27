@@ -44,4 +44,20 @@ public class ConditionFactory {
 
 		return out;
 	}
+
+	public ArrayList<Condition> CreateConditionFromData(List<Map<String, Object>> savedConditions) {
+		ArrayList<Condition> out = new ArrayList<>();
+		
+		for (Map<String, Object> conditionData : savedConditions) {
+			String type = conditionData.keySet().toArray(new String[0])[0];
+			Map<?, ?> values = (Map<?, ?>) conditionData.get(type);
+			
+			Function<Map<?, ?>, Condition> creator = creators.get(type.toLowerCase());
+			if (creator != null) {
+				out.add(creator.apply(values));
+			}
+		}
+		
+		return out;
+	}
 }

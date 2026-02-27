@@ -25,15 +25,20 @@ public class Walk extends Condition {
 		if (values.get("block") instanceof String bn) {
 			block = Material.getMaterial(bn.toUpperCase());
 		}
-		double targetCount = parseRange(values.get("range"));
+		double targetCount = parseTargetCount(values);
 		return new Walk(targetCount, block);
 	}
 
-	private static double parseRange(Object rangeObj) {
-		if (rangeObj instanceof List<?> range) {
-			int min = ((Number) range.get(0)).intValue();
-			int max = ((Number) range.get(1)).intValue();
-			return RANDOM.nextDouble() * (max - min + 1) + min;
+	private static double parseTargetCount(Object valuesObj) {
+		if (valuesObj instanceof Map<?, ?> values) {
+			if (values.containsKey("target_count")) {
+				return ((Number) values.get("target_count")).doubleValue();
+			}
+			if (values.get("range") instanceof List<?> range) {
+				int min = ((Number) range.get(0)).intValue();
+				int max = ((Number) range.get(1)).intValue();
+				return RANDOM.nextDouble() * (max - min + 1) + min;
+			}
 		}
 		return 1;
 	}

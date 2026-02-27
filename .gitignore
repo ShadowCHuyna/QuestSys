@@ -1,9 +1,9 @@
 target
 server
-.vscode
+package-lock.json
 node_modules
+.vscode
 .classpath
 .project
 .factorypath
 .settings
-package-lock.json

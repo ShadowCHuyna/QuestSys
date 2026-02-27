@@ -80,29 +80,15 @@ public class DBController {
 		Set<String> keys = db.getKeys(false);
 		for (String key : keys) {
 			String id = db.getString(key + ".id");
-			Quest quest = questFactory.CreateQuestByID(id);
+			List<Map<String, Object>> savedConditions = (List<Map<String, Object>>) db.get(key + ".conditions");
+			
+			Quest quest = questFactory.CreateQuestByID(id, savedConditions);
+			if (quest == null) continue;
 
 			quest.SetStartTime(db.getLong(key + ".start_time"));
 			UUID uuid = UUID.fromString(key);
 			quest.SetUUID(uuid);
 			quest.SetIsEnd(db.getBoolean(key + ".is_end"));
-
-			List<Map<String, Object>> conditions = (List<Map<String, Object>>) db.get(key + ".conditions");
-
-			// @TODO пиздец
-			ArrayList<Condition> bl = new ArrayList<>();
-			for (Map<String, Object> conditionData : conditions) {
-				String conditionName = conditionData.keySet().toArray(new String[0])[0];
-
-				for (Condition condition : quest.GetConditions()) {
-					if (bl.contains(condition) || !condition.GetName().equalsIgnoreCase(conditionName))
-						continue;
-
-					condition.SetData((Map<String, Object>) conditionData.get(conditionName));
-					bl.add(condition);
-					break;
-				}
-			}
 
 			ArrayList<Executor> executors = new ArrayList<>();
 			List<String> executorNicks = db.getStringList(key + ".executors");

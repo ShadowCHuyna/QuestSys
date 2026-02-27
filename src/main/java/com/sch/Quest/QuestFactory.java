@@ -8,6 +8,7 @@ import com.sch.Conditions.ConditionFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
@@ -104,6 +105,18 @@ public class QuestFactory {
 
 		return null;
 	}
+
+	public Quest CreateQuestByID(String id, List<Map<String, Object>> savedConditions){
+		List<ConfigurationSection> allQuests = new ArrayList<>();
+		collectQuestsRecursively(root, allQuests);
+		if (allQuests.isEmpty()) return null;
+
+		for (ConfigurationSection questSection : allQuests)
+			if(questSection.getName().equalsIgnoreCase(id))
+				return buildQuest(questSection, savedConditions);
+
+		return null;
+	}
 	
 	private Quest buildQuest(ConfigurationSection section) {
 		
@@ -123,6 +136,33 @@ public class QuestFactory {
 
 
 		ArrayList<Condition> conditions = conditionFactory.CreateCondition(section);
+
+		return new Quest(conditions,
+						name, 
+						section.getName(), 
+						description, 
+						exp, 
+						live_time, 
+						on_complite.toArray(new String[0]), 
+						on_fail.toArray(new String[0]),
+						on_complite_once.toArray(new String[0]),
+						on_fail_once.toArray(new String[0])
+					);
+	}
+
+	private Quest buildQuest(ConfigurationSection section, List<Map<String, Object>> savedConditions) {
+		String name = section.getString("name");
+		String description = section.getString("description");
+
+		List<String> on_complite = section.getStringList("on_complite");
+		List<String> on_fail = section.getStringList("on_fail");
+		List<String> on_complite_once = section.getStringList("on_complite_once");
+		List<String> on_fail_once = section.getStringList("on_fail_once");
+
+		int exp = section.getInt("exp");
+		long live_time = section.getLong("live_time");
+
+		ArrayList<Condition> conditions = conditionFactory.CreateConditionFromData(savedConditions);
 
 		return new Quest(conditions,
 						name, 
