@@ -32,6 +32,8 @@ public class QuestSysCmdRouter implements CommandExecutor {
 		}else if(args[0].equalsIgnoreCase("get")){
 			if(args.length < 2) return ErrorCmd(sender);
 			return Get(sender, args[1]);
+		}else if(args[0].equalsIgnoreCase("reload")){
+			return Reload(sender);
 		}else if(args.length >= 2){
 			try {
 				UUID uuid = UUID.fromString(args[0]);
@@ -135,13 +137,20 @@ public class QuestSysCmdRouter implements CommandExecutor {
 		return true;
 	}
 
+	private boolean Reload(CommandSender sender){
+		questFactory.reload();
+		sender.sendMessage("Config reloaded!");
+		return true;
+	}
+
 	private boolean ErrorCmd(CommandSender sender){
 		sender.sendMessage(
 			"/questsys add clan.daily.easy {SCOREBOARD} {PLAYER_0} {PLAYER_1} {PLAYER_n}\n" +
 			"/questsys {QWEST_UUID} remove {PLAYER} {PLAYER_n}\n" +
 			"/questsys {QWEST_UUID} append {PLAYER} {PLAYER_n}\n" +
 			"/questsys {QWEST_UUID} delete\n" +
-			"/questsys get {PLAYER}"
+			"/questsys get {PLAYER}\n" +
+			"/questsys reload"
 		);
 		return false;
 	}

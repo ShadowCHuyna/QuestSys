@@ -21,11 +21,16 @@ public class QuestFactory {
 		return QuestFactory.instance;
 	}
 
-	private final ConfigurationSection root;
+	private ConfigurationSection root;
 	private final Random random = new Random();
 	ConditionFactory conditionFactory = ConditionFactory.PickMe();
 
 	public QuestFactory() {
+		reload();
+	}
+
+	public void reload() {
+		QuestSys.PickMe().reloadConfig();
 		this.root = QuestSys.PickMe().getConfig().getConfigurationSection("all");
 	}
 

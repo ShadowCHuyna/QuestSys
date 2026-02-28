@@ -68,9 +68,9 @@ public class QuestSysTabRouter implements TabCompleter{
 
 		// /questsys <...>
 		if (args.length == 1) {
-			// первая позиция: add | get | <quest_uuid>
 			result.add("add");
 			result.add("get");
+			result.add("reload");
 
 			// UUID квестов
 			result.addAll(getQuestUUIDs());
