@@ -167,8 +167,6 @@ all:
     # или range: [5, 20]
 ```
 
-**Доступные типы мобов:** ZOMBIE, SKELETON, CREEPER, SPIDER, ENDERMAN, и др. (любой EntityType из Minecraft)
-
 #### <a name="block-взаимодействие-с-блоками"></a>block (взаимодействие с блоками)
 
 Условие: добыть, установить или кликнуть по блоку.
