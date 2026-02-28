@@ -1,9 +1,12 @@
 target
 server
 package-lock.json
+package.json
 node_modules
+shell.nix
 .vscode
 .classpath
 .project
 .factorypath
 .settings
+
