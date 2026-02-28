@@ -141,10 +141,16 @@ public class Quest {
 			Player player = executor.GetPlayer(); 
 			if(player == null) continue;
 			for (String cmd : onFailCmds) 
-				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd.replace("{player}", player.getName()));
+				try {Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd.replace("{player}", player.getName()).replace("{PLAYER}", player.getName()));	
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 		}
 		for (String cmd : onFailOnceCmds) 
-			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd.replace("{UUID}", uuid.toString()));
+			try {Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd.replace("{UUID}", uuid.toString()).replace("{uuid}", uuid.toString()));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 	}
 
 	private void addExp(){
@@ -167,12 +173,17 @@ public class Quest {
 		for (Executor executor : executors){
 			Player player = executor.GetPlayer(); 
 			if(player == null) continue;
-			for (String cmd : onCompleteCmds) 
-				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd.replace("{player}", player.getName()));
+			for (String cmd : onCompleteCmds)
+				try {Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd.replace("{player}", player.getName()).replace("{PLAYER}", player.getName()));	
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 		}
-		for (String cmd : onCompleteOnceCmds) 
-			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd.replace("{UUID}", uuid.toString()));
-		
+		for (String cmd : onCompleteOnceCmds)
+			try {Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd.replace("{UUID}", uuid.toString()).replace("{uuid}", uuid.toString()));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 	}
 
 	public boolean CheckLiveTime(){
@@ -185,9 +196,7 @@ public class Quest {
 	}
 
 	public boolean HasExecutor(Executor executor){
-		for (Executor e : executors)
-			if(e == executor) return true;
-		return false;
+		return executors.contains(executor);
 	}
 
 	@Override

@@ -28,7 +28,7 @@ final class ConsoleBanner {
                 {"version",       "0.33a"},
                 {"author",        "sch"},
                 {"association",  "POTATOM"},
-                {"repo",  "github.com/ShadowCHuyna/QuestSys"},
+                {"repo",  "https://github.com/ShadowCHuyna/QuestSys"},
                 {"POTATOM", "potatom.ru"}
         };
 

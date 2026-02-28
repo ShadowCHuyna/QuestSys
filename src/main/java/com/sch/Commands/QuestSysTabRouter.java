@@ -84,7 +84,7 @@ public class QuestSysTabRouter implements TabCompleter{
 			if (args.length == 2) {
 				// /questsys add <group>
 				result.addAll(getAvailableGroups()); // clan.daily.easy и т.п.
-				System.err.println(getAvailableGroups());
+				// System.err.println(getAvailableGroups());
 				return filter(result, args[1]);
 			}
 

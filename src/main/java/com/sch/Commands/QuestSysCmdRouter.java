@@ -37,6 +37,7 @@ public class QuestSysCmdRouter implements CommandExecutor {
 		}else if(args.length >= 2){
 			try {
 				UUID uuid = UUID.fromString(args[0]);
+				System.out.println(uuid);
 				if(args[1].equalsIgnoreCase("remove")){
 					return Remove(sender, uuid, Arrays.copyOfRange(args, 2, args.length));
 				}else if(args[1].equalsIgnoreCase("append")){
@@ -86,6 +87,8 @@ public class QuestSysCmdRouter implements CommandExecutor {
 	}
 
 	private boolean Delete(CommandSender sender, UUID uuid){
+		System.out.println(questManager.GetAllQuests());
+		
 		Quest quest = questManager.Get(uuid);
 		if(quest == null){
 			sender.sendMessage("Quest not found: " + uuid);

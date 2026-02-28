@@ -38,7 +38,7 @@ public class QuestManager {
 	}
 
 	public UUID Put(Quest quest) {
-		return Put(quest, UUID.randomUUID());
+		return Put(quest, quest.GetUUID());
 	}
 
 	public UUID Put(Quest quest, UUID uuid) {
@@ -50,8 +50,8 @@ public class QuestManager {
 
 	public void Remove(UUID uuid){
 		Quest quest = Get(uuid);
-		quest.Delete();
 		quests.remove(uuid);
+		quest.Delete();
 		liveQuests.remove(quest);
 		dbController.SaveQuests();
 	}
