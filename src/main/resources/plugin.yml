@@ -1,5 +1,5 @@
 name: QuestSys
-version: '0.33b'
+version: '0.33a'
 main: com.sch.QuestSys
 api-version: '1.21'
 authors: [ sch ]

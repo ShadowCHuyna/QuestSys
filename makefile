@@ -3,12 +3,12 @@
 all:
 	mvn clean package
 	mkdir -p ./server/plugins
-	cp ./target/QuestSys-0.33b.jar ./server/plugins/QuestSys-0.33b.jar
+	cp ./target/QuestSys-0.33a.jar ./server/plugins/QuestSys-0.33a.jar
 	cd ./server && java -jar ./purpur.jar --nogui 
 
 run:
 	mkdir -p ./server/plugins
-	cp ./target/QuestSys-0.33b.jar ./server/plugins/QuestSys-0.33b.jar
+	cp ./target/QuestSys-0.33a.jar ./server/plugins/QuestSys-0.33a.jar
 	cd ./server && java -jar ./purpur.jar --nogui 
 
 build:
