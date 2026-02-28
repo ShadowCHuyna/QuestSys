@@ -28,9 +28,9 @@ public class Quest {
 	private String scoreboard;
 	private long liveTime = -1;
 
-	private String[] onCompliteCmds;
+	private String[] onCompleteCmds;
 	private String[] onFailCmds;
-	String[] onCompliteOnceCmds;
+	String[] onCompleteOnceCmds;
 	String[] onFailOnceCmds;
 
 	private boolean isEnd = false;
@@ -51,9 +51,9 @@ public class Quest {
 				int exp, 
 				// String scoreboard, 
 				long liveTime,
-				String[] onCompliteCmds,
+				String[] onCompleteCmds,
 				String[] onFailCmds,
-				String[] onCompliteOnceCmds,
+				String[] onCompleteOnceCmds,
 				String[] onFailOnceCmds
 			){
 		// this.uuid = questManager.Put(this);
@@ -65,9 +65,9 @@ public class Quest {
 		// this.scoreboard = scoreboard;
 		this.liveTime = liveTime;
 
-		this.onCompliteCmds = onCompliteCmds;
+		this.onCompleteCmds = onCompleteCmds;
 		this.onFailCmds = onFailCmds;
-		this.onCompliteOnceCmds = onCompliteOnceCmds;
+		this.onCompleteOnceCmds = onCompleteOnceCmds;
 		this.onFailOnceCmds = onFailOnceCmds;
 		
 		AddExecutors(new ArrayList<Executor>());
@@ -130,7 +130,7 @@ public class Quest {
 			}
 		}
 
-		if(flag) onComplite();
+		if(flag) onComplete();
 	}
 
 	public void onFail(){
@@ -161,16 +161,16 @@ public class Quest {
 	}
 
 
-	public void onComplite(){
+	public void onComplete(){
 		isEnd = true;
 		addExp();
 		for (Executor executor : executors){
 			Player player = executor.GetPlayer(); 
 			if(player == null) continue;
-			for (String cmd : onCompliteCmds) 
+			for (String cmd : onCompleteCmds) 
 				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd.replace("{player}", player.getName()));
 		}
-		for (String cmd : onCompliteOnceCmds) 
+		for (String cmd : onCompleteOnceCmds) 
 			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd.replace("{UUID}", uuid.toString()));
 		
 	}

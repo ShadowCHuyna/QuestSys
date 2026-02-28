@@ -24,33 +24,41 @@ public class QuestSysCmdRouter implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String @NotNull [] args) {
-		// /questsys add clan.daily.easy {SCOREBOARD} {PLAYER_0} {PLAYER_1} {PLAYER_n}
-		// /questsys {QWEST_UUID} remove {PLAYER} {PLAYER_n}
-		// /questsys {QWEST_UUID} append {PLAYER} {PLAYER_n}
-		// /questsys {QWEST_UUID} delete
-		// /questsys get {PLAYER}
-
-		if (args.length < 2) return ErrorCmd(sender);
+		if (args.length < 1) return ErrorCmd(sender);
 
 		if(args[0].equalsIgnoreCase("add")){
+			if(args.length < 3) return ErrorCmd(sender);
 			return Add(sender, args[1], args[2], Arrays.copyOfRange(args, 3, args.length));
 		}else if(args[0].equalsIgnoreCase("get")){
+			if(args.length < 2) return ErrorCmd(sender);
 			return Get(sender, args[1]);
-		}else if(args[1].equalsIgnoreCase("remove")){
-			return Remove(sender, args[0], Arrays.copyOfRange(args, 2, args.length));
-		}else if(args[1].equalsIgnoreCase("append")){
-			return Append(sender, args[0], Arrays.copyOfRange(args, 2, args.length));
-		}else if(args[1].equalsIgnoreCase("delete")){
-			return Delete(sender, args[0]);
+		}else if(args.length >= 2){
+			try {
+				UUID uuid = UUID.fromString(args[0]);
+				if(args[1].equalsIgnoreCase("remove")){
+					return Remove(sender, uuid, Arrays.copyOfRange(args, 2, args.length));
+				}else if(args[1].equalsIgnoreCase("append")){
+					return Append(sender, uuid, Arrays.copyOfRange(args, 2, args.length));
+				}else if(args[1].equalsIgnoreCase("delete")){
+					return Delete(sender, uuid);
+				}
+			} catch (IllegalArgumentException e) {
+				sender.sendMessage("Invalid UUID: " + e.getMessage());
+				return false;
+			}
 		}
 
 		return ErrorCmd(sender);
 	}
 
-	private boolean Remove(CommandSender sender, String uuid, String[] players){
+	private boolean Remove(CommandSender sender, UUID uuid, String[] players){
 		if(players.length==0) return ErrorCmd(sender);
 
-		Quest quest = questManager.Get(UUID.fromString(uuid));
+		Quest quest = questManager.Get(uuid);
+		if(quest == null){
+			sender.sendMessage("Quest not found: " + uuid);
+			return false;
+		}
 		ArrayList<Executor> executors = new ArrayList<>();
 		for (String player : players) executors.add(executorManager.Put(player));
 		quest.RemoveExecutors(executors);
@@ -59,10 +67,14 @@ public class QuestSysCmdRouter implements CommandExecutor {
 		return true;
 	}
 
-	private boolean Append(CommandSender sender, String uuid, String[] players){
+	private boolean Append(CommandSender sender, UUID uuid, String[] players){
 		if(players.length==0) return ErrorCmd(sender);
 		
-		Quest quest = questManager.Get(UUID.fromString(uuid));
+		Quest quest = questManager.Get(uuid);
+		if(quest == null){
+			sender.sendMessage("Quest not found: " + uuid);
+			return false;
+		}
 		ArrayList<Executor> executors = new ArrayList<>();
 		for (String player : players) executors.add(executorManager.Put(player));
 		quest.AddExecutors(executors);
@@ -71,8 +83,13 @@ public class QuestSysCmdRouter implements CommandExecutor {
 		return true;
 	}
 
-	private boolean Delete(CommandSender sender, String uuid){
-		questManager.Remove(UUID.fromString(uuid));
+	private boolean Delete(CommandSender sender, UUID uuid){
+		Quest quest = questManager.Get(uuid);
+		if(quest == null){
+			sender.sendMessage("Quest not found: " + uuid);
+			return false;
+		}
+		questManager.Remove(uuid);
 		return true;
 	}
 
@@ -94,6 +111,10 @@ public class QuestSysCmdRouter implements CommandExecutor {
 	private boolean Add(CommandSender sender, String group, String scoreboard, String[] players){
 		try {
 			Quest quest = questFactory.CreateQuest(group);
+			if(quest == null){
+				sender.sendMessage("Quest not found: " + group);
+				return false;
+			}
 			quest.SetScoreboard(scoreboard);
 			
 			ArrayList<Executor> executors = new ArrayList<>();

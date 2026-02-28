@@ -68,8 +68,8 @@ public class Jump extends Condition {
 	@Override
 	public void SetData(Map<String, Object> data) {
 		if(data.containsKey("block")) block = Material.getMaterial((String)data.get("block"));
-		targetCount = (double)data.get("target_count");
-		count = (double)data.get("count");
+		if(data.containsKey("target_count")) targetCount = ((Number)data.get("target_count")).doubleValue();
+		if(data.containsKey("count")) count = ((Number)data.get("count")).doubleValue();
 	}
 	
 	@Override

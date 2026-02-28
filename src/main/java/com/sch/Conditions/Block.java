@@ -124,9 +124,9 @@ public class Block extends Condition {
 	@Override
 	public void SetData(Map<String, Object> data) {
 		if(data.containsKey("block")) block = Material.getMaterial((String)data.get("block"));
-		actionType = ActionTypes.valueOf((String)data.get("action"));
-		targetCount = (double)data.get("target_count");
-		count = (double)data.get("count");
+		if(data.containsKey("action")) actionType = ActionTypes.valueOf((String)data.get("action"));
+		if(data.containsKey("target_count")) targetCount = ((Number)data.get("target_count")).doubleValue();
+		if(data.containsKey("count")) count = ((Number)data.get("count")).doubleValue();
 	}
 	
 	@Override

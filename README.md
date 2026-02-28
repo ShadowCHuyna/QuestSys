@@ -83,7 +83,7 @@ all:
                     description: aboba
                     exp: 100
                     live_time: 3600
-                    on_complite: # выполнится для всех исполнителей
+                    on_complete: # выполнится для всех исполнителей
                         - say {player} aboba
                     on_fail:
                         - say {player} ne aboba

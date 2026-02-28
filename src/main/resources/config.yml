@@ -7,11 +7,11 @@ all:
                     description: aboba
                     exp: 100
                     live_time: 3600
-                    on_complite: # выполнится для всех исполнителей
+                    on_complete: # выполнится для всех исполнителей
                         - say {player} aboba
                     on_fail:
                         - say {player} ne aboba
-                    on_complite_once:
+                    on_complete_once:
                         - say {UUID} quest end aboba
                     on_fail_once:
                         - say {UUID} quest end ne aboba

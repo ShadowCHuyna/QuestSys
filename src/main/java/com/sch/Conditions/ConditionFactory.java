@@ -54,7 +54,9 @@ public class ConditionFactory {
 			
 			Function<Map<?, ?>, Condition> creator = creators.get(type.toLowerCase());
 			if (creator != null) {
-				out.add(creator.apply(values));
+				Condition condition = creator.apply(values);
+				condition.SetData((Map<String, Object>) values);
+				out.add(condition);
 			}
 		}
 		

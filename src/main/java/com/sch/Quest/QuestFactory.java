@@ -124,9 +124,9 @@ public class QuestFactory {
 		String name = section.getString("name");
 		String description = section.getString("description");
 
-		List<String> on_complite = section.getStringList("on_complite");
+		List<String> on_complete = section.getStringList("on_complete");
 		List<String> on_fail = section.getStringList("on_fail");
-		List<String> on_complite_once = section.getStringList("on_complite_once");
+		List<String> on_complete_once = section.getStringList("on_complete_once");
 		List<String> on_fail_once = section.getStringList("on_fail_once");
 
 		
@@ -143,9 +143,9 @@ public class QuestFactory {
 						description, 
 						exp, 
 						live_time, 
-						on_complite.toArray(new String[0]), 
+						on_complete.toArray(new String[0]), 
 						on_fail.toArray(new String[0]),
-						on_complite_once.toArray(new String[0]),
+						on_complete_once.toArray(new String[0]),
 						on_fail_once.toArray(new String[0])
 					);
 	}
@@ -154,9 +154,9 @@ public class QuestFactory {
 		String name = section.getString("name");
 		String description = section.getString("description");
 
-		List<String> on_complite = section.getStringList("on_complite");
+		List<String> on_complete = section.getStringList("on_complete");
 		List<String> on_fail = section.getStringList("on_fail");
-		List<String> on_complite_once = section.getStringList("on_complite_once");
+		List<String> on_complete_once = section.getStringList("on_complete_once");
 		List<String> on_fail_once = section.getStringList("on_fail_once");
 
 		int exp = section.getInt("exp");
@@ -170,9 +170,9 @@ public class QuestFactory {
 						description, 
 						exp, 
 						live_time, 
-						on_complite.toArray(new String[0]), 
+						on_complete.toArray(new String[0]), 
 						on_fail.toArray(new String[0]),
-						on_complite_once.toArray(new String[0]),
+						on_complete_once.toArray(new String[0]),
 						on_fail_once.toArray(new String[0])
 					);
 	}
