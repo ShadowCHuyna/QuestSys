@@ -49,9 +49,10 @@ public class QuestManager {
 	}
 
 	public void Remove(UUID uuid){
-		Get(uuid).Delete();
+		Quest quest = Get(uuid);
+		quest.Delete();
 		quests.remove(uuid);
-		System.out.println(quests.values());
+		liveQuests.remove(quest);
 		dbController.SaveQuests();
 	}
 

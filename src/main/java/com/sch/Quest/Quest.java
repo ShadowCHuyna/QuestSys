@@ -37,9 +37,9 @@ public class Quest {
 	private boolean isFail = false;
 	private long startTime = -1;
 
+	// @TODO что то делать
 	public void Delete(){
-		RemoveExecutors(executors);
-		
+		// RemoveExecutors(executors);
 	}
 
 	public Quest(
