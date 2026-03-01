@@ -1,4 +1,4 @@
-package com.sch.Conditions;
+package com.QuestSys.Conditions;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -8,8 +8,8 @@ import java.util.Random;
 import org.bukkit.Material;
 import org.bukkit.event.Event;
 
+import com.QuestSys.Events.EventTypes;
 import com.destroystokyo.paper.event.player.PlayerJumpEvent;
-import com.sch.Events.EventTypes;
 
 public class Jump extends Condition {
 	private Material block;

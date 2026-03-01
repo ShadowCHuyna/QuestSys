@@ -1,4 +1,4 @@
-package com.sch.Quest;
+package com.QuestSys.Quest;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -11,8 +11,8 @@ import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
 
-import com.sch.Conditions.Condition;
-import com.sch.Executors.Executor;
+import com.QuestSys.Conditions.Condition;
+import com.QuestSys.Executors.Executor;
 
 import net.kyori.adventure.text.Component;
 

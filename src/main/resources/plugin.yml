@@ -1,6 +1,6 @@
 name: QuestSys
-version: '0.33a'
-main: com.sch.QuestSys
+version: ${project.version}
+main: com.QuestSys.QuestSys
 api-version: '1.21'
 authors: [ sch ]
 description: plugin for Welten 4 - questsys

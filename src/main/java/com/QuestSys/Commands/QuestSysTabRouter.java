@@ -1,4 +1,4 @@
-package com.sch.Commands;
+package com.QuestSys.Commands;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,9 +13,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Objective;
 import org.jetbrains.annotations.NotNull;
 
-import com.sch.Quest.Quest;
-import com.sch.Quest.QuestFactory;
-import com.sch.Quest.QuestManager;
+import com.QuestSys.Quest.Quest;
+import com.QuestSys.Quest.QuestFactory;
+import com.QuestSys.Quest.QuestManager;
 
 public class QuestSysTabRouter implements TabCompleter{
 	private final QuestManager questManager = QuestManager.PickMe();

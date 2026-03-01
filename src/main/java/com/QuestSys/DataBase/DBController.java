@@ -1,4 +1,4 @@
-package com.sch.DataBase;
+package com.QuestSys.DataBase;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,13 +11,13 @@ import java.util.UUID;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import com.sch.QuestSys;
-import com.sch.Conditions.Condition;
-import com.sch.Executors.Executor;
-import com.sch.Executors.ExecutorManager;
-import com.sch.Quest.Quest;
-import com.sch.Quest.QuestFactory;
-import com.sch.Quest.QuestManager;
+import com.QuestSys.QuestSys;
+import com.QuestSys.Conditions.Condition;
+import com.QuestSys.Executors.Executor;
+import com.QuestSys.Executors.ExecutorManager;
+import com.QuestSys.Quest.Quest;
+import com.QuestSys.Quest.QuestFactory;
+import com.QuestSys.Quest.QuestManager;
 
 public class DBController {
 	private FileConfiguration db;

@@ -1,4 +1,4 @@
-package com.sch.Quest;
+package com.QuestSys.Quest;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,9 +7,9 @@ import java.util.UUID;
 
 import org.bukkit.scheduler.BukkitRunnable;
 
-import com.sch.QuestSys;
-import com.sch.DataBase.DBController;
-import com.sch.Executors.Executor;
+import com.QuestSys.QuestSys;
+import com.QuestSys.DataBase.DBController;
+import com.QuestSys.Executors.Executor;
 
 public class QuestManager {
 	private static QuestManager instance;

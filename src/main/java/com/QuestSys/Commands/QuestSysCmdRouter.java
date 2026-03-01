@@ -1,4 +1,4 @@
-package com.sch.Commands;
+package com.QuestSys.Commands;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,12 +9,12 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
-import com.sch.DataBase.DBController;
-import com.sch.Executors.Executor;
-import com.sch.Executors.ExecutorManager;
-import com.sch.Quest.Quest;
-import com.sch.Quest.QuestFactory;
-import com.sch.Quest.QuestManager;
+import com.QuestSys.DataBase.DBController;
+import com.QuestSys.Executors.Executor;
+import com.QuestSys.Executors.ExecutorManager;
+import com.QuestSys.Quest.Quest;
+import com.QuestSys.Quest.QuestFactory;
+import com.QuestSys.Quest.QuestManager;
 
 public class QuestSysCmdRouter implements CommandExecutor {
 	private final QuestFactory questFactory = QuestFactory.PickMe();

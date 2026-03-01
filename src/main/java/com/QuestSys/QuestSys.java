@@ -1,12 +1,12 @@
-package com.sch;
+package com.QuestSys;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.sch.Commands.QuestSysCmdRouter;
-import com.sch.Commands.QuestSysTabRouter;
-import com.sch.DataBase.DBController;
-import com.sch.Events.EventListener;
+import com.QuestSys.Commands.QuestSysCmdRouter;
+import com.QuestSys.Commands.QuestSysTabRouter;
+import com.QuestSys.DataBase.DBController;
+import com.QuestSys.Events.EventListener;
 
 final class ConsoleBanner {
 
@@ -22,10 +22,10 @@ final class ConsoleBanner {
 			" ██████  ",
 			"    ▀▀   "
         };
-
+        
         String[][] data = {
                 {"name",     "QuestSys"},
-                {"version",       "0.33a"},
+                {"version",       QuestSys.PickMe().getDescription().getVersion()},
                 {"author",        "sch"},
                 {"association",  "POTATOM"},
                 {"repo",  "https://github.com/ShadowCHuyna/QuestSys"},

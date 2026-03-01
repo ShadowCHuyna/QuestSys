@@ -1,4 +1,4 @@
-package com.sch.Conditions;
+package com.QuestSys.Conditions;
 
 import java.util.ArrayList;
 import java.util.List;

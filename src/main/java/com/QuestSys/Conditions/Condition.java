@@ -1,4 +1,4 @@
-package com.sch.Conditions;
+package com.QuestSys.Conditions;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -6,10 +6,10 @@ import java.util.Map;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.event.Event;
 
-import com.sch.Events.EventTypes;
-import com.sch.Events.Subscribe;
-import com.sch.Executors.Executor;
-import com.sch.Quest.Quest;
+import com.QuestSys.Events.EventTypes;
+import com.QuestSys.Events.Subscribe;
+import com.QuestSys.Executors.Executor;
+import com.QuestSys.Quest.Quest;
 
 public abstract class Condition {
 	protected Subscribe subscribe;

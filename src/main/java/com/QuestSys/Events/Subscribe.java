@@ -1,11 +1,11 @@
-package com.sch.Events;
+package com.QuestSys.Events;
 
 import java.util.ArrayList;
 import java.util.function.Consumer;
 
 import org.bukkit.event.Event;
 
-import com.sch.Executors.Executor;
+import com.QuestSys.Executors.Executor;
 
 public class Subscribe {
 	private ArrayList<Executor> executors = new ArrayList<Executor>(); 

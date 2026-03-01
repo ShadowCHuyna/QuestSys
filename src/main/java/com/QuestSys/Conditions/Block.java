@@ -1,4 +1,4 @@
-package com.sch.Conditions;
+package com.QuestSys.Conditions;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -12,7 +12,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-import com.sch.Events.EventTypes;
+import com.QuestSys.Events.EventTypes;
 
 enum ActionTypes {
 	placement,

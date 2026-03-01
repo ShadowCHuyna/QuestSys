@@ -1,4 +1,4 @@
-package com.sch.Events;
+package com.QuestSys.Events;
 
 public enum EventTypes{
     PlayerJoinEvent,

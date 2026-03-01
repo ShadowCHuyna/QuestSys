@@ -1,10 +1,10 @@
-package com.sch.Quest;
+package com.QuestSys.Quest;
 
 import org.bukkit.configuration.ConfigurationSection;
 
-import com.sch.QuestSys;
-import com.sch.Conditions.Condition;
-import com.sch.Conditions.ConditionFactory;
+import com.QuestSys.QuestSys;
+import com.QuestSys.Conditions.Condition;
+import com.QuestSys.Conditions.ConditionFactory;
 
 import java.util.ArrayList;
 import java.util.List;

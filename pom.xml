@@ -1,68 +1,71 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>com.sch</groupId>
-  <artifactId>QuestSys</artifactId>
-  <packaging>jar</packaging>
-  <version>0.33a</version>
-  <name>QuestSys</name>
-  <url>http://maven.apache.org</url>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.QuestSys</groupId>
+	<artifactId>QuestSys</artifactId>
+	<packaging>jar</packaging>
+	<version>0.33a</version>
+	<name>QuestSys</name>
+	<description>Quest system plugin for Paper 1.21</description>
+	<inceptionYear>2026</inceptionYear>
+	<url>https://github.com/ShadowCHuyna/QuestSys</url>
+	<developers>
+		<developer>
+			<id>sch</id>
+			<name>sch</name>
+			<roles><role>developer</role></roles>
+		</developer>
+	</developers>
+	<issueManagement>
+		<system>GitHub Issues</system>
+		<url>https://github.com/ShadowCHuyna/QuestSys/issues</url>
+	</issueManagement>
+	<organization>
+		<name>POTATOM</name>
+		<url>https://potatom.ru/</url>
+	</organization>
 
-  <properties>
-    <java.version>21</java.version>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>21</maven.compiler.source>
-    <maven.compiler.target>21</maven.compiler.target>
-  </properties>
+	<properties>
+		<java.version>21</java.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.source>21</maven.compiler.source>
+		<maven.compiler.target>21</maven.compiler.target>
+	</properties>
 
-  <build>
-    <defaultGoal>clean package</defaultGoal>
-    <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
-    <plugins>
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-shade-plugin</artifactId>
-            <version>3.5.3</version>
-            <executions>
-                <execution>
-                    <phase>package</phase>
-                    <goals>
-                        <goal>shade</goal>
-                    </goals>
-                </execution>
-            </executions>
-        </plugin>
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <configuration>
-                <source>21</source>
-                <target>21</target>
-            </configuration>
-        </plugin>
-    </plugins>
-    <resources>
-        <resource>
-            <directory>src/main/resources</directory>
-            <filtering>true</filtering>
-        </resource>
-    </resources>
-  </build>
+	<build>
+		<defaultGoal>clean package</defaultGoal>
+		<sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<release>21</release>
+				</configuration>
+			</plugin>
+		</plugins>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+	</build>
 
-  <repositories>
-    <repository>
-      <id>papermc-repo</id>
-      <url>https://repo.papermc.io/repository/maven-public/</url>
-    </repository>
-  </repositories>
+	<repositories>
+	<repository>
+		<id>papermc-repo</id>
+		<url>https://repo.papermc.io/repository/maven-public/</url>
+	</repository>
+	</repositories>
 
-  <dependencies>
-    <dependency>
-      <groupId>io.papermc.paper</groupId>
-      <artifactId>paper-api</artifactId>
-      <version>1.21.11-R0.1-SNAPSHOT</version>
-      <scope>provided</scope>
-    </dependency>
-    
-  </dependencies>
+	<dependencies>
+	<dependency>
+		<groupId>io.papermc.paper</groupId>
+		<artifactId>paper-api</artifactId>
+		<version>1.21.11-R0.1-SNAPSHOT</version>
+		<scope>provided</scope>
+	</dependency>
+
+	</dependencies>
 </project>

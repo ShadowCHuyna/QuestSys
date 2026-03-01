@@ -1,4 +1,4 @@
-package com.sch.Conditions;
+package com.QuestSys.Conditions;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -9,7 +9,7 @@ import org.bukkit.Material;
 import org.bukkit.event.Event;
 import org.bukkit.event.inventory.CraftItemEvent;
 
-import com.sch.Events.EventTypes;
+import com.QuestSys.Events.EventTypes;
 
 public class Craft extends Condition {
 	private Material item;

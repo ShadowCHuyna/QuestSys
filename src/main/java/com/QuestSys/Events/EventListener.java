@@ -1,4 +1,4 @@
-package com.sch.Events;
+package com.QuestSys.Events;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,11 +30,11 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.player.PlayerSwapHandItemsEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 
+import com.QuestSys.QuestSys;
+import com.QuestSys.Executors.Executor;
+import com.QuestSys.Executors.ExecutorManager;
 import com.destroystokyo.paper.event.player.PlayerJumpEvent;
 import com.destroystokyo.paper.event.player.PlayerPostRespawnEvent;
-import com.sch.QuestSys;
-import com.sch.Executors.Executor;
-import com.sch.Executors.ExecutorManager;
 
 import java.util.UUID;
 import java.util.concurrent.CopyOnWriteArrayList;

@@ -1,4 +1,4 @@
-package com.sch.Conditions;
+package com.QuestSys.Conditions;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -7,36 +7,29 @@ import java.util.Random;
 
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
-import com.sch.Events.EventTypes;
+import com.QuestSys.Events.EventTypes;
 
-enum DamageDirections {
-	p2e,
-	e2p
-}
-
-public class Damage extends Condition {
-	EntityType entity;
-	DamageDirections direction;
+public class Kill extends Condition {
+	private EntityType entityType;
 	private static final Random RANDOM = new Random();
 
-	public Damage(EntityType entity, DamageDirections direction, double targetCount) {
-		super("damage", EventTypes.EntityDamageByEntityEvent, targetCount);
-		this.entity = entity;
-		this.direction = direction;
+	public Kill(double targetCount, EntityType entityType) {
+		super("kill", EventTypes.EntityDamageByEntityEvent, targetCount);
+		this.entityType = entityType;
 	}
 
 	public static Condition create(Map<?, ?> values) {
 		EntityType entityType = null;
 		if (values.get("entity") instanceof String en) {
-			entityType = EntityType.valueOf(en);
+			entityType = EntityType.valueOf(en.toLowerCase());
 		}
-		DamageDirections direction = DamageDirections.valueOf((String) values.get("direction"));
 		double targetCount = parseTargetCount(values);
-		return new Damage(entityType, direction, targetCount);
+		return new Kill(targetCount, entityType);
 	}
 
 	private static double parseTargetCount(Object valuesObj) {
@@ -55,9 +48,9 @@ public class Damage extends Condition {
 
 	@Override
 	protected void onEvent(Event e) {
-		EntityDamageByEntityEvent event = (EntityDamageByEntityEvent)e;
 		Entity ent = null;
 		Player player = null;
+		EntityDamageByEntityEvent event = (EntityDamageByEntityEvent)e;
 		if (event.getDamager() instanceof Player || event.getEntity() instanceof Player) {
 			if(event.getDamager() instanceof Player) {
 				player = (Player)event.getDamager();
@@ -69,14 +62,9 @@ public class Damage extends Condition {
 			}
 		}
 		if(player==null || ent == null) return;
-		if(event.getDamager() instanceof Player && direction == DamageDirections.p2e){
-			if(entity!=null && event.getEntity().getType()!=entity)return;
-			count+=event.getDamage();
-		}else if(event.getEntity() instanceof Player && direction == DamageDirections.e2p){
-			if(entity!=null && event.getDamager().getType()!=entity)return;
-			count+=event.getDamage();	
-		}else return;
-		
+		if(ent instanceof LivingEntity lent) if(lent.getHealth()-event.getDamage() > 0) return;
+		if(entityType!=null && !ent.getType().equals(entityType)) return;
+		count++;
 		checkCondition();
 	}
 
@@ -84,34 +72,30 @@ public class Damage extends Condition {
 	public Map<String, Object> GetData() {
 		Map<String, Object> data = new LinkedHashMap<>();
 		
-		if(entity!=null) data.put("entity", entity.getName());
+		if(entityType!=null) data.put("entity", entityType.getName());
 		data.put("target_count", this.GetTargetCount());
 		data.put("count", this.count);
-		data.put("direction", this.direction.name());
 
 		Map<String, Object> wrapper = new LinkedHashMap<>();
-    	wrapper.put("damage", data);
+    	wrapper.put("kill", data);
 		return wrapper;
 	}
 
 	@Override
 	public void SetData(Map<String, Object> data) {
-		if(data.containsKey("entity")) entity = EntityType.fromName((String)data.get("entity"));
-		if(data.containsKey("direction")) direction = DamageDirections.valueOf((String)data.get("direction"));
+		if(data.containsKey("entity")) entityType = EntityType.fromName((String)data.get("entity"));
 		if(data.containsKey("target_count")) targetCount = ((Number)data.get("target_count")).doubleValue();
 		if(data.containsKey("count")) count = ((Number)data.get("count")).doubleValue();
 	}
 	
 	@Override
 	public String toString(){
-		String str = "damage:\n"+ 
+		String str = "kill:\n"+ 
 				"    count: "+this.count+ 
-				"\n    target_count: " + this.GetTargetCount()+
-				"\n    direction: "+direction.name();
+				"\n    target_count: " + this.GetTargetCount();
 
-		if(entity!=null)
-			str+="\n    entity: "+entity.name();
-		
+		if(entityType!=null)
+			str+="\n    entity: "+entityType.name();
 		return str;
 	}
 }
