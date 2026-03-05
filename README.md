@@ -116,7 +116,7 @@ all:
 | `on_fail` | List<String> | Нет | Команды при провале (для каждого игрока) |
 | `on_complete_once` | List<String> | Нет | Команды при выполнении (один раз) |
 | `on_fail_once` | List<String> | Нет | Команды при провале (один раз) |
-| `while_in_progress` | List<String> | Нет | Команды, выполняемые раз в interval тиков |
+| `while_in_progress` | Object | Нет | Команды, выполняемые раз в interval тиков |
 | `conditions` | List | Да | Список условий выполнения |
 
 ### <a name="плейсхолдеры-в-командах"></a>Плейсхолдеры в командах
