@@ -4,7 +4,7 @@
 	<groupId>com.QuestSys</groupId>
 	<artifactId>QuestSys</artifactId>
 	<packaging>jar</packaging>
-	<version>0.33a</version>
+	<version>0.33</version>
 	<name>QuestSys</name>
 	<description>Quest system plugin for Paper 1.21</description>
 	<inceptionYear>2026</inceptionYear>
