@@ -34,6 +34,10 @@
     - [block (взаимодействие с блоками)](#block-взаимодействие-с-блоками)
     - [damage (урон)](#damage-урон)
     - [craft (крафт)](#craft-крафт)
+    - [go_too (перемещение к точке)](#go_too-перемещение-к-точке)
+    - [swim (плавание)](#swim-плавание)
+    - [death (смерть)](#death-смерть)
+    - [sleep (сон)](#sleep-сон)
   - [Пример полной конфигурации](#пример-полной-конфигурации)
 - [Сохранение данных](#сохранение-данных)
 - [Разработка](#разработка)
@@ -112,12 +116,28 @@ all:
 | `on_fail` | List<String> | Нет | Команды при провале (для каждого игрока) |
 | `on_complete_once` | List<String> | Нет | Команды при выполнении (один раз) |
 | `on_fail_once` | List<String> | Нет | Команды при провале (один раз) |
+| `while_in_progress` | List<String> | Нет | Команды, выполняемые раз в interval тиков |
 | `conditions` | List | Да | Список условий выполнения |
 
 ### <a name="плейсхолдеры-в-командах"></a>Плейсхолдеры в командах
 
 - `{player}` - имя игрока-исполнителя
 - `{UUID}` - UUID квеста
+
+### <a name="while_in_progress"></a>while_in_progress
+
+Команды, которые выполняются периодически с указанным интервалом, пока квест активен.
+
+```yaml
+while_in_progress:
+    # Интервал в тиках (20 тиков = 1 секунда)
+    interval: 20
+    # Список команд
+    cmds:
+        - title {player} subtitle Осталось %quest_time% сек.
+```
+
+**Примечание:** `%quest_time%` - плейсхолдер, который автоматически заменяется на оставшееся время квеста в секундах.
 
 ### <a name="условия-выполнения"></a>Условия выполнения
 
@@ -219,6 +239,63 @@ all:
     # или range: [1, 10]
 ```
 
+#### <a name="go_too-перемещение-к-точке"></a>go_too (перемещение к точке)
+
+Условие: дойти до указанной точки в мире.
+
+```yaml
+- go_too:
+    # Название мира (обязательно)
+    world: nether
+    
+    # Координаты целевой точки (обязательно)
+    position:
+        x: 10
+        y: 20
+        z: 222
+    
+    # Допустимая погрешность (опционально, по умолчанию: 5)
+    acceptable_error: 10
+```
+
+#### <a name="swim-плавание"></a>swim (плавание)
+
+Условие: начать плавать в указанном биоме.
+
+```yaml
+- swim:
+    # Биом (опционально). Если не указан - любой биом
+    biome: COLD_OCEAN
+    
+    target_count: 5
+    # или range: [1, 10]
+```
+
+#### <a name="death-смерть"></a>death (смерть)
+
+Условие: умереть от указанного типа урона.
+
+```yaml
+- death:
+    # Тип урона (опционально). Если не указан - любая смерть
+    damage_type: LAVA
+    
+    target_count: 3
+    # или range: [1, 10]
+```
+
+Доступные типы урона: `ARROW`, `LAVA`, `FIRE`, `WATER`, `FALL`, `CRAMMING`, `CACTUS`, `LIGHTNING`, `VOID`, `MAGIC`, `WITHER`, `DRAGON_BREATH`, `EXPLOSION`, `PLAYER`, `MOB`, `STARVATION`, `SUFFOCATION`, `SONIC_BOOM`, `IN_FIRE`, `HOT_FLOOR`, `FREEZE` и др.
+
+#### <a name="sleep-сон"></a>sleep (сон)
+
+Условие: крепко заснуть в кровати.
+
+```yaml
+- sleep:
+    target_count: 1
+    # или range: [1, 10]
+```
+
 ### <a name="пример-полной-конфигурации"></a>Пример полной конфигурации
 
 ```yaml
@@ -236,6 +313,10 @@ all:
                         - say {player} выполнил квест!
                     on_fail:
                         - say {player} не успел выполнить квест :(
+                    while_in_progress:
+                        interval: 100
+                        cmds:
+                            - title {player} actionbar часики тикают.
                     conditions:
                         - block:
                             action: destroy
@@ -358,20 +439,25 @@ b949a252-34ef-4a41-bd3a-2510b71a66b3:
 		- 1
 		- 10
 ```
-- [ ] sleep
+- [X] sleep
 ```yml
 - sleep:
 	range: 
 		- 1
 		- 10
 ```
-- [X] while_in_progress:
+- [X] while_in_progress (новое свойство помимо `on_complete` и т.д.):
 ```yml
 while_in_progress:
     interval: 20
     cmds:
-        - say {player} aboba tick
+        - title {player} часики тикают.
+        - say {player} делай квест!
 ```
+
+**Плейсхолдеры:**
+- `{player}` - имя игрока
+- `{UUID}` - UUID квеста
 
 ### Сборка
 
