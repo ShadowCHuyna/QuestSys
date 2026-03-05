@@ -134,6 +134,9 @@ public class QuestFactory {
 		List<String> on_complete_once = section.getStringList("on_complete_once");
 		List<String> on_fail_once = section.getStringList("on_fail_once");
 
+		long while_in_progress_interval = section.getLong("while_in_progress.interval");
+		List<String> while_in_progress_cmds = section.getStringList("while_in_progress.cmds");
+
 		
 		int exp = section.getInt("exp");
 		long live_time = section.getLong("live_time");
@@ -151,7 +154,9 @@ public class QuestFactory {
 						on_complete.toArray(new String[0]), 
 						on_fail.toArray(new String[0]),
 						on_complete_once.toArray(new String[0]),
-						on_fail_once.toArray(new String[0])
+						on_fail_once.toArray(new String[0]),
+						while_in_progress_interval,
+						while_in_progress_cmds.toArray(new String[0])
 					);
 	}
 
@@ -167,6 +172,9 @@ public class QuestFactory {
 		int exp = section.getInt("exp");
 		long live_time = section.getLong("live_time");
 
+		long while_in_progress_interval = section.getLong("while_in_progress.interval");
+		List<String> while_in_progress_cmds = section.getStringList("while_in_progress.cmds");
+
 		ArrayList<Condition> conditions = conditionFactory.CreateConditionFromData(savedConditions);
 
 		return new Quest(conditions,
@@ -178,7 +186,9 @@ public class QuestFactory {
 						on_complete.toArray(new String[0]), 
 						on_fail.toArray(new String[0]),
 						on_complete_once.toArray(new String[0]),
-						on_fail_once.toArray(new String[0])
+						on_fail_once.toArray(new String[0]),
+						while_in_progress_interval,
+						while_in_progress_cmds.toArray(new String[0])
 					);
 	}
 }

@@ -45,7 +45,7 @@ public class Block extends Condition {
 		else if (actionType == ActionTypes.placement) eventType = EventTypes.BlockPlaceEvent;
 		else eventType = EventTypes.PlayerInteractEvent;
 		
-		double targetCount = Utils.ParseTargetCount(values);
+		double targetCount = (int)ParseTargetCount(values);
 		return new Block(actionType, material, targetCount, eventType);
 	}
 

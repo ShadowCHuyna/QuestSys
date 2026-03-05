@@ -5,13 +5,16 @@ import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Criteria;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
 
+import com.QuestSys.QuestSys;
 import com.QuestSys.Conditions.Condition;
+import com.QuestSys.DataBase.DBController;
 import com.QuestSys.Executors.Executor;
 
 import net.kyori.adventure.text.Component;
@@ -30,16 +33,22 @@ public class Quest {
 
 	private String[] onCompleteCmds;
 	private String[] onFailCmds;
-	String[] onCompleteOnceCmds;
-	String[] onFailOnceCmds;
+	private String[] onCompleteOnceCmds;
+	private String[] onFailOnceCmds;
 
 	private boolean isEnd = false;
 	private boolean isFail = false;
 	private long startTime = -1;
 
+	private long while_in_progress_interval = -1;
+	private String[] while_in_progress_cmds = new String[0];
+
+	BukkitRunnable while_in_progress_runnable;
 	// @TODO что то делать
 	public void Delete(){
-		// RemoveExecutors(executors);
+		isEnd = true;
+		while_in_progress_runnable.cancel();
+		RemoveExecutors(executors);
 	}
 
 	public Quest(
@@ -54,7 +63,10 @@ public class Quest {
 				String[] onCompleteCmds,
 				String[] onFailCmds,
 				String[] onCompleteOnceCmds,
-				String[] onFailOnceCmds
+				String[] onFailOnceCmds,
+
+				long while_in_progress_interval,
+				String[] while_in_progress_cmds
 			){
 		// this.uuid = questManager.Put(this);
 		
@@ -69,11 +81,31 @@ public class Quest {
 		this.onFailCmds = onFailCmds;
 		this.onCompleteOnceCmds = onCompleteOnceCmds;
 		this.onFailOnceCmds = onFailOnceCmds;
+
+		this.while_in_progress_interval = while_in_progress_interval;
+		this.while_in_progress_cmds = while_in_progress_cmds;
 		
 		AddExecutors(new ArrayList<Executor>());
 		AddCondition(conditions);
 
 		// startTime = java.time.Instant.now().getEpochSecond();
+		if(while_in_progress_interval>0)
+			while_in_progress_runnable = new BukkitRunnable() {
+				@Override
+				public void run() {
+					if(isEnd) this.cancel();
+					for (Executor executor : executors){
+						Player player = executor.GetPlayer(); 
+						if(player == null) continue;
+						for (String cmd : onFailCmds) 
+							try {Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd.replace("{player}", player.getName()).replace("{PLAYER}", player.getName()));	
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+					}
+				}
+			};
+			while_in_progress_runnable.runTaskTimer(QuestSys.PickMe(), 1L, while_in_progress_interval);
 	}
 
 	public void SetIsEnd(boolean state){isEnd=state;}

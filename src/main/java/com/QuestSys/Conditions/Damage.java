@@ -34,7 +34,7 @@ public class Damage extends Condition {
 			entityType = EntityType.valueOf(en);
 		}
 		DamageDirections direction = DamageDirections.valueOf((String) values.get("direction"));
-		double targetCount = Utils.ParseTargetCount(values);
+		double targetCount = (int)ParseTargetCount(values);
 		return new Damage(entityType, direction, targetCount);
 	}
 

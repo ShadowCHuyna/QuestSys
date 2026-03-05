@@ -1,7 +1,9 @@
 package com.QuestSys.Conditions;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.event.Event;
@@ -51,6 +53,22 @@ public abstract class Condition {
 			master.onChangeStateCondition();
 		}
 		return state;
+	}
+
+	protected static final Random RANDOM = new Random();
+
+	protected static double ParseTargetCount(Object valuesObj) {
+		if (valuesObj instanceof Map<?, ?> values) {
+			if (values.containsKey("target_count")) {
+				return ((Number) values.get("target_count")).doubleValue();
+			}
+			if (values.get("range") instanceof List<?> range) {
+				int min = ((Number) range.get(0)).intValue();
+				int max = ((Number) range.get(1)).intValue();
+				return RANDOM.nextDouble() * (max - min + 1) + min;
+			}
+		}
+		return 1;
 	}
 
 	public abstract Map<String, Object> GetData();

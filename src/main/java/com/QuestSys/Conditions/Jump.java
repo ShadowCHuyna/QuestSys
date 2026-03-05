@@ -24,7 +24,7 @@ public class Jump extends Condition {
 		if (values.get("block") instanceof String bn) {
 			block = Material.getMaterial(bn.toUpperCase());
 		}
-		double targetCount = Utils.ParseTargetCount(values);
+		double targetCount = (int)ParseTargetCount(values);
 		return new Jump(targetCount, block);
 	}
 

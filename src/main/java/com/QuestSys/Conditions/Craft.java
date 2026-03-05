@@ -24,7 +24,7 @@ public class Craft extends Condition {
 		if (values.get("item") instanceof String in) {
 			material = Material.getMaterial(in);
 		}
-		double targetCount = Utils.ParseTargetCount(values);
+		double targetCount = (int)ParseTargetCount(values);
 		return new Craft(material, targetCount);
 	}
 

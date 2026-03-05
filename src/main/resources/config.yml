@@ -15,6 +15,10 @@ all:
                         - say {UUID} quest end aboba
                     on_fail_once:
                         - say {UUID} quest end ne aboba
+                    while_in_progress:
+                        interval: 20
+                        cmds:
+                            - say {player} aboba tick
                     conditions:
                         - walk:
                             # block: dirt

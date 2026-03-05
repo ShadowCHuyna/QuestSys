@@ -27,7 +27,7 @@ public class Kill extends Condition {
 		if (values.get("entity") instanceof String en) {
 			entityType = EntityType.valueOf(en.toLowerCase());
 		}
-		double targetCount = Utils.ParseTargetCount(values);
+		double targetCount = (int)ParseTargetCount(values);
 		return new Kill(targetCount, entityType);
 	}
 
