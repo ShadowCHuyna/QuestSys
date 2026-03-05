@@ -13,7 +13,6 @@ import com.QuestSys.Events.EventTypes;
 
 public class Craft extends Condition {
 	private Material item;
-	private static final Random RANDOM = new Random();
 
 	public Craft(Material item, double targetCount) {
 		super("craft", EventTypes.CraftItemEvent, targetCount);
@@ -25,22 +24,8 @@ public class Craft extends Condition {
 		if (values.get("item") instanceof String in) {
 			material = Material.getMaterial(in);
 		}
-		double targetCount = parseTargetCount(values);
+		double targetCount = Utils.ParseTargetCount(values);
 		return new Craft(material, targetCount);
-	}
-
-	private static double parseTargetCount(Object valuesObj) {
-		if (valuesObj instanceof Map<?, ?> values) {
-			if (values.containsKey("target_count")) {
-				return ((Number) values.get("target_count")).doubleValue();
-			}
-			if (values.get("range") instanceof List<?> range) {
-				int min = ((Number) range.get(0)).intValue();
-				int max = ((Number) range.get(1)).intValue();
-				return RANDOM.nextDouble() * (max - min + 1) + min;
-			}
-		}
-		return 1;
 	}
 
 	@Override

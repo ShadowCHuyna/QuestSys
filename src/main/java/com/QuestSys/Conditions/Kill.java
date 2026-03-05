@@ -16,7 +16,6 @@ import com.QuestSys.Events.EventTypes;
 
 public class Kill extends Condition {
 	private EntityType entityType;
-	private static final Random RANDOM = new Random();
 
 	public Kill(double targetCount, EntityType entityType) {
 		super("kill", EventTypes.EntityDamageByEntityEvent, targetCount);
@@ -28,22 +27,8 @@ public class Kill extends Condition {
 		if (values.get("entity") instanceof String en) {
 			entityType = EntityType.valueOf(en.toLowerCase());
 		}
-		double targetCount = parseTargetCount(values);
+		double targetCount = Utils.ParseTargetCount(values);
 		return new Kill(targetCount, entityType);
-	}
-
-	private static double parseTargetCount(Object valuesObj) {
-		if (valuesObj instanceof Map<?, ?> values) {
-			if (values.containsKey("target_count")) {
-				return ((Number) values.get("target_count")).doubleValue();
-			}
-			if (values.get("range") instanceof List<?> range) {
-				int min = ((Number) range.get(0)).intValue();
-				int max = ((Number) range.get(1)).intValue();
-				return RANDOM.nextDouble() * (max - min + 1) + min;
-			}
-		}
-		return 1;
 	}
 
 	@Override

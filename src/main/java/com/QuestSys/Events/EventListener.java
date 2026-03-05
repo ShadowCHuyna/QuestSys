@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -35,9 +36,6 @@ import com.QuestSys.Executors.Executor;
 import com.QuestSys.Executors.ExecutorManager;
 import com.destroystokyo.paper.event.player.PlayerJumpEvent;
 import com.destroystokyo.paper.event.player.PlayerPostRespawnEvent;
-
-import java.util.UUID;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 public class EventListener implements Listener {
 	private static EventListener instance;
@@ -157,6 +155,10 @@ public class EventListener implements Listener {
 			else if(ede.getEntity() instanceof Player)player = (Player)ede.getEntity();
 		} else if(event instanceof CraftItemEvent ce){
 			player = (Player) ce.getWhoClicked();
+		} else if(event instanceof BlockBreakEvent bb){
+			player = (Player) bb.getPlayer();
+		} else if(event instanceof BlockPlaceEvent bp){
+			player = (Player) bp.getPlayer();
 		}
 
 		if (player != null) {

@@ -61,6 +61,7 @@ public class DBController {
 			db.set(path + "id", quest.GetId());
 			db.set(path + "start_time", quest.GetStartTime());
 			db.set(path + "is_end", quest.IsEnd());
+			db.set(path + "scoreboard", quest.GetScoreboard());
 			ArrayList<String> executorNicks = new ArrayList<>();
 			for (Executor executor : quest.GetExecutors())
 				executorNicks.add(executor.GetNick());
@@ -89,6 +90,7 @@ public class DBController {
 			UUID uuid = UUID.fromString(key);
 			quest.SetUUID(uuid);
 			quest.SetIsEnd(db.getBoolean(key + ".is_end"));
+			quest.SetScoreboard(db.getString(key + ".scoreboard"));
 
 			ArrayList<Executor> executors = new ArrayList<>();
 			List<String> executorNicks = db.getStringList(key + ".executors");

@@ -21,7 +21,6 @@ enum DamageDirections {
 public class Damage extends Condition {
 	EntityType entity;
 	DamageDirections direction;
-	private static final Random RANDOM = new Random();
 
 	public Damage(EntityType entity, DamageDirections direction, double targetCount) {
 		super("damage", EventTypes.EntityDamageByEntityEvent, targetCount);
@@ -35,22 +34,8 @@ public class Damage extends Condition {
 			entityType = EntityType.valueOf(en);
 		}
 		DamageDirections direction = DamageDirections.valueOf((String) values.get("direction"));
-		double targetCount = parseTargetCount(values);
+		double targetCount = Utils.ParseTargetCount(values);
 		return new Damage(entityType, direction, targetCount);
-	}
-
-	private static double parseTargetCount(Object valuesObj) {
-		if (valuesObj instanceof Map<?, ?> values) {
-			if (values.containsKey("target_count")) {
-				return ((Number) values.get("target_count")).doubleValue();
-			}
-			if (values.get("range") instanceof List<?> range) {
-				int min = ((Number) range.get(0)).intValue();
-				int max = ((Number) range.get(1)).intValue();
-				return RANDOM.nextDouble() * (max - min + 1) + min;
-			}
-		}
-		return 1;
 	}
 
 	@Override
