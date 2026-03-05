@@ -137,8 +137,6 @@ while_in_progress:
         - title {player} subtitle Осталось %quest_time% сек.
 ```
 
-**Примечание:** `%quest_time%` - плейсхолдер, который автоматически заменяется на оставшееся время квеста в секундах.
-
 ### <a name="условия-выполнения"></a>Условия выполнения
 
 Поддерживаются следующие типы условий:
@@ -284,8 +282,6 @@ while_in_progress:
     # или range: [1, 10]
 ```
 
-Доступные типы урона: `ARROW`, `LAVA`, `FIRE`, `WATER`, `FALL`, `CRAMMING`, `CACTUS`, `LIGHTNING`, `VOID`, `MAGIC`, `WITHER`, `DRAGON_BREATH`, `EXPLOSION`, `PLAYER`, `MOB`, `STARVATION`, `SUFFOCATION`, `SONIC_BOOM`, `IN_FIRE`, `HOT_FLOOR`, `FREEZE` и др.
-
 #### <a name="sleep-сон"></a>sleep (сон)
 
 Условие: крепко заснуть в кровати.
@@ -413,47 +409,7 @@ b949a252-34ef-4a41-bd3a-2510b71a66b3:
 При запуске сервера плагин автоматически загружает все сохранённые квесты и восстанавливает прогресс игроков.
 
 ## <a name="разработка"></a>Разработка
-- [X] go_too
-```yml
-- go_too:
-	world: world
-	position:
-		x: 10
-		y: 20
-		z: 10
-	acceptable_error: 10
-```
-- [X] swim
-```yml
-- swim:
-	# biome: COLD_OCEAN | опционально
-	range: 
-		- 1
-		- 10
-```
-- [X] death
-```yml
-- death:
-	# damage_type: ARROW | опционально
-	range: 
-		- 1
-		- 10
-```
-- [X] sleep
-```yml
-- sleep:
-	range: 
-		- 1
-		- 10
-```
-- [X] while_in_progress (новое свойство помимо `on_complete` и т.д.):
-```yml
-while_in_progress:
-    interval: 20
-    cmds:
-        - title {player} часики тикают.
-        - say {player} делай квест!
-```
+
 
 **Плейсхолдеры:**
 - `{player}` - имя игрока
