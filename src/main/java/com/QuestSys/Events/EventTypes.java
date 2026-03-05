@@ -16,5 +16,7 @@ public enum EventTypes{
 	PlayerToggleSneakEvent,
 	PlayerInteractAtEntityEvent,
 	PlayerItemConsumeEvent,
-	CraftItemEvent
+	CraftItemEvent,
+	EntityToggleSwimEvent,
+	PlayerDeepSleepEvent
 }

@@ -18,6 +18,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityToggleSwimEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.player.PlayerEvent;
@@ -37,6 +38,8 @@ import com.QuestSys.Executors.ExecutorManager;
 import com.destroystokyo.paper.event.player.PlayerJumpEvent;
 import com.destroystokyo.paper.event.player.PlayerPostRespawnEvent;
 
+import io.papermc.paper.event.player.PlayerDeepSleepEvent;
+
 public class EventListener implements Listener {
 	private static EventListener instance;
 
@@ -48,22 +51,24 @@ public class EventListener implements Listener {
 
 	private EventListener() {
 		Set<Class<? extends Event>> eventClasses = Stream.of(
-                PlayerJoinEvent.class,
-                PlayerQuitEvent.class,
-                PlayerRespawnEvent.class,
-                PlayerPostRespawnEvent.class,
-                PlayerDeathEvent.class,
-                PlayerInteractEvent.class,
-                BlockBreakEvent.class,
-                BlockPlaceEvent.class,
-                PlayerMoveEvent.class,
+				PlayerJoinEvent.class,
+				PlayerQuitEvent.class,
+				PlayerRespawnEvent.class,
+				PlayerPostRespawnEvent.class,
+				PlayerDeathEvent.class,
+				PlayerInteractEvent.class,
+				BlockBreakEvent.class,
+				BlockPlaceEvent.class,
+				PlayerMoveEvent.class,
 				PlayerJumpEvent.class,
-                EntityDamageByEntityEvent.class,
-                PlayerSwapHandItemsEvent.class,
-                PlayerToggleSneakEvent.class,
-                PlayerInteractAtEntityEvent.class,
-                PlayerItemConsumeEvent.class,
-				CraftItemEvent.class
+				EntityDamageByEntityEvent.class,
+				PlayerSwapHandItemsEvent.class,
+				PlayerToggleSneakEvent.class,
+				PlayerInteractAtEntityEvent.class,
+				PlayerItemConsumeEvent.class,
+				CraftItemEvent.class,
+				EntityToggleSwimEvent.class,
+				PlayerDeepSleepEvent.class
         ).collect(Collectors.toSet());
 
 		for (Class<? extends Event> eventClass : eventClasses) {
@@ -159,12 +164,23 @@ public class EventListener implements Listener {
 			player = (Player) bb.getPlayer();
 		} else if(event instanceof BlockPlaceEvent bp){
 			player = (Player) bp.getPlayer();
-		}
+		} else if(event instanceof PlayerDeathEvent pd){
+			player = (Player) pd.getPlayer();
+		} else if(event instanceof EntityToggleSwimEvent es){
+			if(es.isSwimming() && es.getEntity() instanceof Player p)
+				player = p;
+		} else if(event instanceof PlayerDeepSleepEvent ds){
+			player = ds.getPlayer();
+		} 
 
 		if (player != null) {
-			EventTypes type = EventTypes.valueOf(event.getEventName());
-			if (type != null)
-				CallEvent(type, event, executorManager.Get(player.getName()));
+			try {
+				EventTypes type = EventTypes.valueOf(event.getEventName());
+				if (type != null)
+					CallEvent(type, event, executorManager.Get(player.getName()));
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
 		}
 	}
 }

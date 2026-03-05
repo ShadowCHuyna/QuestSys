@@ -106,4 +106,18 @@ public class GoToo extends Condition {
 		if (data.containsKey("count"))
 			count = ((Number) data.get("count")).doubleValue();
 	}
+
+	@Override
+	public String toString() {
+		String str = "go_too:\n"
+				+ "    count: " + this.count
+				+ "\n    target_count: " + this.GetTargetCount()
+				+ "\n    world: " + worldName
+				+ "\n    position:"
+				+ "\n        x: " + targetLocation.getX()
+				+ "\n        y: " + targetLocation.getY()
+				+ "\n        z: " + targetLocation.getZ()
+				+ "\n    acceptable_error: " + acceptableError;
+		return str;
+	}
 }

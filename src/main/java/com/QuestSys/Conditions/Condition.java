@@ -19,7 +19,7 @@ public abstract class Condition {
 	protected double count = 0; 
 
 	protected double targetCount;
-	private boolean state = false;
+	protected boolean state = false;
 
 	private String name;
 

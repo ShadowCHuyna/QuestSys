@@ -342,16 +342,29 @@ b949a252-34ef-4a41-bd3a-2510b71a66b3:
 		z: 10
 	acceptable_error: 10
 ```
-- [ ] swim
-- [ ] death
+- [X] swim
+```yml
+- swim:
+	# biome: COLD_OCEAN | опционально
+	range: 
+		- 1
+		- 10
+```
+- [X] death
 ```yml
 - death:
-	damage_type: ARROW
+	# damage_type: ARROW | опционально
 	range: 
 		- 1
 		- 10
 ```
 - [ ] sleep
+```yml
+- sleep:
+	range: 
+		- 1
+		- 10
+```
 - [X] while_in_progress:
 ```yml
 while_in_progress:

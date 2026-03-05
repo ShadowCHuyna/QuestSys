@@ -47,7 +47,11 @@ public class Quest {
 	// @TODO что то делать
 	public void Delete(){
 		isEnd = true;
-		while_in_progress_runnable.cancel();
+		try {
+			if(while_in_progress_runnable!=null && !while_in_progress_runnable.isCancelled())while_in_progress_runnable.cancel();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		RemoveExecutors(executors);
 	}
 
@@ -89,7 +93,7 @@ public class Quest {
 		AddCondition(conditions);
 
 		// startTime = java.time.Instant.now().getEpochSecond();
-		if(while_in_progress_interval>0)
+		if(while_in_progress_interval>0 && while_in_progress_cmds.length>0){
 			while_in_progress_runnable = new BukkitRunnable() {
 				@Override
 				public void run() {
@@ -97,7 +101,7 @@ public class Quest {
 					for (Executor executor : executors){
 						Player player = executor.GetPlayer(); 
 						if(player == null) continue;
-						for (String cmd : onFailCmds) 
+						for (String cmd : while_in_progress_cmds) 
 							try {Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd.replace("{player}", player.getName()).replace("{PLAYER}", player.getName()));	
 							} catch (Exception e) {
 								e.printStackTrace();
@@ -106,6 +110,7 @@ public class Quest {
 				}
 			};
 			while_in_progress_runnable.runTaskTimer(QuestSys.PickMe(), 1L, while_in_progress_interval);
+		}
 	}
 
 	public void SetIsEnd(boolean state){isEnd=state;}

@@ -23,7 +23,10 @@ public class ConditionFactory {
 		Map.entry("block", Block::create),
 		Map.entry("damage", Damage::create),
 		Map.entry("craft", Craft::create),
-		Map.entry("go_too", GoToo::create)
+		Map.entry("go_too", GoToo::create),
+		Map.entry("death", Death::create),
+		Map.entry("swim", Swim::create),
+		Map.entry("sleep", Sleep::create)
 	);
 
 	public ArrayList<Condition> CreateCondition(ConfigurationSection section) {
