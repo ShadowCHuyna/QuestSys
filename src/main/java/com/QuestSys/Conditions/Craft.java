@@ -8,6 +8,7 @@ import java.util.Random;
 import org.bukkit.Material;
 import org.bukkit.event.Event;
 import org.bukkit.event.inventory.CraftItemEvent;
+import org.bukkit.inventory.ItemStack;
 
 import com.QuestSys.Events.EventTypes;
 
@@ -32,7 +33,20 @@ public class Craft extends Condition {
 	protected void onEvent(Event e) {
 		CraftItemEvent event = (CraftItemEvent)e;
 		if(item != null && event.getRecipe() != null && item != event.getRecipe().getResult().getType()) return;
-		count++;
+		
+		ItemStack result = event.getRecipe().getResult();
+		int maxPerCraft = result.getAmount();
+
+		// Считаем, сколько раз хватит ингредиентов
+		int times = Integer.MAX_VALUE;
+		for (ItemStack ingredient : event.getInventory().getMatrix()) {
+			if (ingredient == null || ingredient.getType().isAir()) continue;
+			times = Math.min(times, ingredient.getAmount());
+		}
+
+		if (times == Integer.MAX_VALUE) times = 1;
+
+		count+=maxPerCraft * times;
 		checkCondition();
 	}
 
