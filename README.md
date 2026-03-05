@@ -134,7 +134,7 @@ while_in_progress:
     interval: 20
     # Список команд
     cmds:
-        - title {player} subtitle Осталось %quest_time% сек.
+        - say {player} осталось мало времени.
 ```
 
 ### <a name="условия-выполнения"></a>Условия выполнения
@@ -312,7 +312,7 @@ all:
                     while_in_progress:
                         interval: 100
                         cmds:
-                            - title {player} actionbar часики тикают.
+                            - say {player} часики тикают.
                     conditions:
                         - block:
                             action: destroy
