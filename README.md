@@ -332,12 +332,27 @@ b949a252-34ef-4a41-bd3a-2510b71a66b3:
 При запуске сервера плагин автоматически загружает все сохранённые квесты и восстанавливает прогресс игроков.
 
 ## <a name="разработка"></a>Разработка
-- go_too
-- swim
-- death
-- sleep
-- while_in_progress
-
+- [X] go_too
+```yml
+- go_too:
+	world: world
+	position:
+		x: 10
+		y: 20
+		z: 10
+	acceptable_error: 10
+```
+- [ ] swim
+- [ ] death
+```yml
+- death:
+	damage_type: ARROW
+	range: 
+		- 1
+		- 10
+```
+- [ ] sleep
+- [X] while_in_progress:
 ```yml
 while_in_progress:
     interval: 20
