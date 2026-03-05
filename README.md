@@ -385,6 +385,7 @@ b949a252-34ef-4a41-bd3a-2510b71a66b3:
     id: collect_dirt
     start_time: 1704067200
     is_end: false
+	scoreboard: clan_aboba
     executors:
         - Player1
         - Player2
@@ -403,6 +404,7 @@ b949a252-34ef-4a41-bd3a-2510b71a66b3:
 | `is_end` | Завершён ли квест |
 | `executors` | Список исполнителей квеста |
 | `conditions` | Прогресс по каждому условию |
+| `scoreboard` | `score name` в scoreboard `questsys` |
 
 ### Восстановление прогресса
 
