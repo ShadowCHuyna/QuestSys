@@ -46,7 +46,7 @@ public class Swim extends Condition {
 			if (playerBiome != biome) return;
 		}
 
-		count++;
+		count+=event.getTo().clone().subtract(event.getFrom()).length();
 		checkCondition();
 	}
 
